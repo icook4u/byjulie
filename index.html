@@ -259,25 +259,29 @@
 <script>
 // ── DISHES ARE STORED HERE ── edit between the brackets to hardcode dishes
 const HARDCODED = [
-  { id: 1,  name: "Russian Borscht",                      emoji: "🍲", photo: "photos/borscht.png",         cat: "Other", desc: "" },
-  { id: 2,  name: "Quiche",                               emoji: "🥧", photo: "photos/quiche.jpg",          cat: "Other", desc: "" },
-  { id: 3,  name: "Baked sweet potato with Tuna",         emoji: "🍠", photo: "photos/bakespotato.jpg",     cat: "Other", desc: "" },
-  { id: 4,  name: "Burrata with Parma ham",               emoji: "🧀", photo: "photos/burrata.jpg",         cat: "Other", desc: "" },
-  { id: 5,  name: "Lemon and olive chicken tajin",        emoji: "🍋", photo: "photos/lemonolivestajin.jpg",cat: "Other", desc: "" },
-  { id: 6,  name: "Shakshuka",                            emoji: "🍳", photo: "photos/shakshuka.jpg",       cat: "Other", desc: "" },
-  { id: 7,  name: "Italian Carbonara",                    emoji: "🍝", photo: "photos/carbonara.jpg",       cat: "Other", desc: "" },
-  { id: 8,  name: "Zucchini frittata",                    emoji: "🥚", photo: "photos/fritata.jpg",         cat: "Other", desc: "" },
-  { id: 9,  name: "Japanese daikon mushroom soup",        emoji: "🍜", photo: "photos/japanesesoup.jpg",    cat: "Other", desc: "" },
-  { id: 10, name: "Eggs Julie",                           emoji: "🍳", photo: "photos/eggsjulie.jpg",       cat: "Other", desc: "" },
-  { id: 11, name: "Sicilian caponata",                    emoji: "🍆", photo: "photos/caponata.jpg",        cat: "Other", desc: "" },
-  { id: 12, name: "Pumpkin soup",                         emoji: "🎃", photo: "photos/pumpkinsoup.jpg",     cat: "Other", desc: "" },
-  { id: 13, name: "Focaccia",                             emoji: "🍞", photo: "photos/foccacia.jpg",        cat: "Other", desc: "" },
-  { id: 14, name: "Beef goulash",                         emoji: "🥩", photo: "photos/goulash.jpg",         cat: "Other", desc: "" },
-  { id: 15, name: "Roasted tomato and bell pepper soup",  emoji: "🫑", photo: "photos/tomatosoup.jpg",      cat: "Other", desc: "" },
-  { id: 16, name: "Granola",                              emoji: "🌾", photo: "photos/granola.jpg",         cat: "Other", desc: "" },
-  { id: 17, name: "Bone broth",                           emoji: "🍵", photo: "photos/bonebroth.jpg",       cat: "Other", desc: "" },
-  { id: 18, name: "Chestnut soup",                        emoji: "🌰", photo: "photos/chestnut.jpg",        cat: "Other", desc: "" },
-  { id: 19, name: "Sourdough bread",                      emoji: "🍞", photo: "photos/bread.jpg",            cat: "Other", desc: "unavailable" }
+  { id: 1,  name: "Ukrainian Borscht",                    emoji: "🍲", photo: "photos/borscht.png",           cat: "Other", desc: "" },
+  { id: 2,  name: "Quiche",                               emoji: "🥧", photo: "photos/quiche.jpg",            cat: "Other", desc: "" },
+  { id: 3,  name: "Baked sweet potato with tuna",         emoji: "🍠", photo: "photos/bakespotato.jpg",       cat: "Other", desc: "" },
+  { id: 4,  name: "Burrata with Parma ham",               emoji: "🧀", photo: "photos/burrata.jpg",           cat: "Other", desc: "" },
+  { id: 5,  name: "Lemon and olive chicken tajin",        emoji: "🍋", photo: "photos/lemonolivestajin.jpg",  cat: "Other", desc: "" },
+  { id: 6,  name: "Shakshuka",                            emoji: "🍳", photo: "photos/shakshuka.jpg",         cat: "Other", desc: "" },
+  { id: 7,  name: "Italian Carbonara",                    emoji: "🍝", photo: "photos/carbonara.jpg",         cat: "Other", desc: "" },
+  { id: 8,  name: "Zucchini frittata",                    emoji: "🥚", photo: "photos/fritata.jpg",           cat: "Other", desc: "" },
+  { id: 9,  name: "Latvian beetroot soup",                emoji: "🫆", photo: "photos/beetrootsoup.jpg",      cat: "Other", desc: "" },
+  { id: 10, name: "Japanese daikon mushroom soup",        emoji: "🍜", photo: "photos/japanesesoup.jpg",      cat: "Other", desc: "" },
+  { id: 11, name: "Eggs Julie",                           emoji: "🍳", photo: "photos/eggsjulie.jpg",         cat: "Other", desc: "" },
+  { id: 12, name: "Beef stuffed tomatoes",                emoji: "🍅", photo: "photos/stuffedtomatoes.jpg",   cat: "Other", desc: "" },
+  { id: 13, name: "Sicilian caponata",                    emoji: "🍆", photo: "photos/caponata.jpg",          cat: "Other", desc: "" },
+  { id: 14, name: "Pumpkin soup",                         emoji: "🎃", photo: "photos/pumpkinsoup.jpg",       cat: "Other", desc: "" },
+  { id: 15, name: "Focaccia",                             emoji: "🍞", photo: "photos/foccacia.jpg",          cat: "Other", desc: "" },
+  { id: 16, name: "Potato pancakes",                      emoji: "🥞", photo: "photos/potatopancakes.jpg",    cat: "Other", desc: "" },
+  { id: 17, name: "Hungarian beef goulash",               emoji: "🥩", photo: "photos/goulash.jpg",           cat: "Other", desc: "" },
+  { id: 18, name: "Roasted tomato and bell pepper soup",  emoji: "🫑", photo: "photos/tomatosoup.jpg",        cat: "Other", desc: "" },
+  { id: 19, name: "Salmon",                               emoji: "🐟", photo: "photos/salmon.jpg",            cat: "Other", desc: "" },
+  { id: 20, name: "Granola",                              emoji: "🌾", photo: "photos/granola.jpg",           cat: "Other", desc: "" },
+  { id: 21, name: "Bone broth",                           emoji: "🍵", photo: "photos/bonebroth.jpg",         cat: "Other", desc: "" },
+  { id: 22, name: "Chestnut soup",                        emoji: "🌰", photo: "photos/chestnut.jpg",          cat: "Other", desc: "" },
+  { id: 23, name: "Sourdough bread",                      emoji: "🍞", photo: "photos/bread.jpg",             cat: "Other", desc: "unavailable" }
 ];
 
 let dishes = HARDCODED.length ? [...HARDCODED] : loadFromStorage();

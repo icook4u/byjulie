@@ -101,8 +101,8 @@
 
   .lock-screen {
     position: fixed; inset: 0;
-    display: flex; align-items: center; justify-content: space-between;
-    z-index: 999; padding: 3rem 5%;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 999; padding: 2rem;
     overflow: hidden;
     background: var(--header-bg);
   }
@@ -172,19 +172,11 @@
   <div class="lock-card" style="position:relative; z-index:2;">
     <div class="lock-logo">i<span>cook</span>4U</div>
     <div class="lock-kaomoji">(*ᴗ͈ˬᴗ͈)</div>
-    <div class="lock-label">Enter code to continue to the menu</div>
+    <div class="lock-label">plz enter the code to access the menu</div>
     <input class="lock-input" id="lock-input" type="password" placeholder="••••••"
       onkeydown="if(event.key==='Enter') unlock()">
     <button class="lock-btn" onclick="unlock()">Enter →</button>
     <div class="lock-error" id="lock-error"></div>
-  </div>
-  <div class="lock-bubble-dots">
-    <div class="lock-bubble-dot" style="width:18px;height:18px;"></div>
-    <div class="lock-bubble-dot" style="width:12px;height:12px;"></div>
-    <div class="lock-bubble-dot" style="width:8px;height:8px;"></div>
-  </div>
-  <div class="lock-dream-bubble">
-    <img src="photos/photoshero.jpg" alt="">
   </div>
 </div>
 

@@ -8,272 +8,99 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --cream: #FBF7F2;
-    --warm: #F3EEF8;
-    --ink: #3D2F4A;
-    --ink-soft: #7A6589;
-    --ink-faint: #B9A8C8;
-    --accent: #A07CC5;
-    --accent-light: #EDE4F7;
-    --border: #E4D9EF;
-    --card-bg: #FEFCFF;
-    --header-bg: #EDE4F7;
-    --serif: 'Cormorant Garamond', Georgia, serif;
-    --sans: 'Jost', sans-serif;
+    --cream: #FBF7F2; --warm: #F3EEF8; --ink: #3D2F4A; --ink-soft: #7A6589;
+    --ink-faint: #B9A8C8; --accent: #A07CC5; --accent-light: #EDE4F7;
+    --border: #E4D9EF; --card-bg: #FEFCFF; --header-bg: #EDE4F7;
+    --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Jost', sans-serif;
   }
   body { background: var(--cream); font-family: var(--sans); color: var(--ink); min-height: 100vh; }
 
-  header {
-    background: var(--header-bg); color: var(--ink);
-    padding: 2rem 2rem; position: relative;
-    border-bottom: 1px solid var(--border);
-  }
+  header { background: var(--header-bg); padding: 2rem; border-bottom: 1px solid var(--border); }
   .header-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; gap: 1.25rem; }
-  .profile-photo {
-    width: 72px; height: 72px; border-radius: 50%;
-    object-fit: cover; flex-shrink: 0;
-    border: 2px solid var(--border);
-  }
-  .header-text { display: flex; flex-direction: column; }
+  .profile-photo { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid var(--border); }
   .logo { font-family: var(--serif); font-size: 3rem; font-weight: 300; letter-spacing: 0.04em; line-height: 1; color: var(--ink); }
   .logo span { color: var(--accent); font-weight: 400; }
-  .tagline { font-size: 0.85rem; font-weight: 300; color: var(--ink-faint); margin-top: 0.4rem; letter-spacing: 0.08em; text-transform: uppercase; }
 
   main { max-width: 960px; margin: 0 auto; padding: 2rem; }
-  .view { display: none; }
-  .view.active { display: block; }
+  .view { display: none; } .view.active { display: block; }
 
-  .nav-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
-  .nav-tab {
-    font-family: var(--sans); font-size: 0.82rem; font-weight: 500;
-    padding: 0.65rem 1.25rem; background: transparent; border: none;
-    border-bottom: 2px solid transparent; color: var(--ink-faint);
-    cursor: pointer; transition: all 0.15s; margin-bottom: -1px;
-  }
-  .nav-tab:hover { color: var(--ink); }
-  .nav-tab.active { color: var(--ink); border-bottom-color: var(--accent); }
+  .dishes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
 
-  /* ── MENU ── */
-  .section-label {
-    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--ink-faint); margin-bottom: 1.25rem;
-  }
-  .dishes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 12px;
-  }
-
-  .dish-card {
-    border-radius: 12px;
-    overflow: hidden;
-    cursor: pointer;
-    position: relative;
-    aspect-ratio: 4/3;
-    border: 2px solid transparent;
-    transition: border-color 0.2s;
-  }
+  .dish-card { border-radius: 12px; overflow: hidden; cursor: pointer; position: relative; aspect-ratio: 4/3; border: 2px solid transparent; transition: border-color 0.2s; }
   .dish-card.selected { border-color: var(--accent); }
-
-  .dish-photo {
-    width: 100%; height: 100%; object-fit: cover;
-    display: block; background: var(--warm);
-    transition: transform 0.4s ease;
-  }
+  .dish-photo { width: 100%; height: 100%; object-fit: cover; display: block; background: var(--warm); transition: transform 0.4s ease; }
   .dish-card:hover .dish-photo { transform: scale(1.04); }
-
-  .dish-photo-placeholder {
-    width: 100%; height: 100%;
-    background: var(--warm);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 2.5rem;
-  }
-
-  .dish-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(40,25,55,0.72) 0%, transparent 55%);
-    opacity: 0; transition: opacity 0.3s ease;
-    display: flex; align-items: flex-end; padding: 1rem;
-  }
+  .dish-photo-placeholder { width: 100%; height: 100%; background: var(--warm); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
+  .dish-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(40,25,55,0.72) 0%, transparent 55%); opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: flex-end; padding: 1rem; }
   .dish-card:hover .dish-overlay, .dish-card.selected .dish-overlay { opacity: 1; }
-  .dish-name {
-    font-family: var(--serif); font-size: 1.05rem; font-weight: 400;
-    color: #fff; line-height: 1.3; letter-spacing: 0.02em;
-  }
-
-  .dish-check {
-    position: absolute; top: 9px; right: 9px;
-    width: 26px; height: 26px; border-radius: 50%;
-    background: var(--accent);
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; transition: opacity 0.15s;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  }
+  .dish-name { font-family: var(--serif); font-size: 1.05rem; font-weight: 400; color: #fff; line-height: 1.3; letter-spacing: 0.02em; }
+  .dish-check { position: absolute; top: 9px; right: 9px; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
   .dish-card.selected .dish-check { opacity: 1; }
   .dish-check svg { width: 11px; height: 11px; stroke: white; stroke-width: 2.5; fill: none; }
 
-  .confirm-bar {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: var(--accent); color: #fff;
-    padding: 1rem 2rem;
-    display: flex; align-items: center; justify-content: space-between;
-    transform: translateY(100%);
-    transition: transform 0.25s cubic-bezier(0.34,1.3,0.64,1);
-    z-index: 100;
-  }
+  .confirm-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--accent); color: #fff; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; transform: translateY(100%); transition: transform 0.25s cubic-bezier(0.34,1.3,0.64,1); z-index: 100; }
   .confirm-bar.show { transform: translateY(0); }
   .confirm-bar-name { font-family: var(--serif); font-size: 1.1rem; font-weight: 400; letter-spacing: 0.02em; }
   .confirm-bar-hint { font-size: 0.75rem; color: rgba(255,255,255,0.7); margin-top: 1px; }
-  .btn-confirm {
-    font-family: var(--sans); font-size: 0.85rem; font-weight: 500;
-    padding: 10px 24px; border-radius: 8px;
-    background: #fff; color: var(--accent); border: none; cursor: pointer;
-    white-space: nowrap; transition: opacity 0.15s;
-  }
+  .btn-confirm { font-family: var(--sans); font-size: 0.85rem; font-weight: 500; padding: 10px 24px; border-radius: 8px; background: #fff; color: var(--accent); border: none; cursor: pointer; white-space: nowrap; transition: opacity 0.15s; }
   .btn-confirm:hover { opacity: 0.88; }
 
-  /* ── CONFIRM VIEW ── */
-  .confirm-card {
-    background: var(--card-bg); border: 1px solid var(--border);
-    border-radius: 16px; overflow: hidden;
-    max-width: 500px; margin: 0 auto;
-  }
-  .confirm-photo {
-    width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; background: var(--warm);
-  }
-  .confirm-photo-placeholder {
-    width: 100%; aspect-ratio: 16/9; background: var(--warm);
-    display: flex; align-items: center; justify-content: center; font-size: 4rem;
-  }
+  .confirm-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; max-width: 500px; margin: 0 auto; }
+  .confirm-photo { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; background: var(--warm); }
+  .confirm-photo-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--warm); display: flex; align-items: center; justify-content: center; font-size: 4rem; }
   .confirm-body { padding: 1.75rem 2rem; }
-  .confirm-ribbon {
-    display: inline-block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em;
-    text-transform: uppercase; color: white; background: var(--accent);
-    padding: 3px 12px; border-radius: 99px; margin-bottom: 0.75rem;
-  }
+  .confirm-ribbon { display: inline-block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: white; background: var(--accent); padding: 3px 12px; border-radius: 99px; margin-bottom: 0.75rem; }
   .confirm-dish-name { font-family: var(--serif); font-size: 1.8rem; font-weight: 400; letter-spacing: 0.02em; margin-bottom: 0.5rem; }
   .confirm-dish-desc { font-size: 0.85rem; font-weight: 300; line-height: 1.6; color: var(--ink-soft); margin-bottom: 1.5rem; }
   .divider { height: 1px; background: var(--border); margin: 1.25rem 0; }
-  .btn-back {
-    font-family: var(--sans); font-size: 0.8rem; color: var(--ink-soft);
-    background: transparent; border: 1px solid var(--border);
-    padding: 8px 18px; border-radius: 8px; cursor: pointer;
-    transition: all 0.15s; width: 100%;
-  }
+  .btn-back { font-family: var(--sans); font-size: 0.8rem; color: var(--ink-soft); background: transparent; border: 1px solid var(--border); padding: 8px 18px; border-radius: 8px; cursor: pointer; transition: all 0.15s; width: 100%; }
   .btn-back:hover { border-color: var(--ink); color: var(--ink); }
 
-  /* ── ADMIN ── */
-  .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+  .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 8px; }
   .admin-header h2 { font-family: var(--serif); font-size: 1.5rem; font-weight: 400; letter-spacing: 0.02em; }
-  .btn-add {
-    font-family: var(--sans); font-size: 0.8rem; font-weight: 500;
-    padding: 8px 18px; border-radius: 8px;
-    background: var(--accent); color: #fff; border: none; cursor: pointer; transition: opacity 0.15s;
-  }
+  .admin-header-btns { display: flex; gap: 8px; }
+  .btn-add { font-family: var(--sans); font-size: 0.8rem; font-weight: 500; padding: 8px 18px; border-radius: 8px; background: var(--accent); color: #fff; border: none; cursor: pointer; transition: opacity 0.15s; }
   .btn-add:hover { opacity: 0.8; }
+  .btn-export { font-family: var(--sans); font-size: 0.8rem; font-weight: 500; padding: 8px 18px; border-radius: 8px; background: transparent; color: var(--ink-soft); border: 1px solid var(--border); cursor: pointer; transition: all 0.15s; }
+  .btn-export:hover { border-color: var(--ink); color: var(--ink); }
 
-  .dish-form {
-    background: var(--card-bg); border: 1px solid var(--border);
-    border-radius: 12px; padding: 1.5rem;
-    margin-bottom: 1.5rem; display: none;
-  }
+  .export-banner { background: #e8f5e9; border: 1px solid #a5d6a7; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.82rem; line-height: 1.6; color: #2e7d32; display: none; }
+  .export-banner strong { font-weight: 500; }
+
+  .dish-form { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; display: none; }
   .dish-form.open { display: block; }
   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .form-row { margin-bottom: 1rem; }
-  .form-row label {
-    display: block; font-size: 0.73rem; font-weight: 500;
-    letter-spacing: 0.06em; text-transform: uppercase;
-    color: var(--ink-soft); margin-bottom: 5px;
-  }
-  .form-row input, .form-row select, .form-row textarea {
-    width: 100%; font-family: var(--sans); font-size: 0.9rem;
-    padding: 9px 12px; border: 1px solid var(--border);
-    border-radius: 8px; background: var(--cream); color: var(--ink);
-    outline: none; transition: border-color 0.15s;
-  }
+  .form-row label { display: block; font-size: 0.73rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 5px; }
+  .form-row input, .form-row textarea { width: 100%; font-family: var(--sans); font-size: 0.9rem; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--cream); color: var(--ink); outline: none; transition: border-color 0.15s; }
   .form-row input:focus, .form-row textarea:focus { border-color: var(--ink); }
   .form-row textarea { resize: vertical; min-height: 70px; }
-
-  .photo-hint {
-    font-size: 0.75rem; color: var(--ink-faint); line-height: 1.5;
-    margin-top: 5px;
-  }
-  .photo-hint code {
-    font-family: monospace; background: var(--warm);
-    padding: 1px 5px; border-radius: 4px; font-size: 0.78rem; color: var(--ink-soft);
-  }
-
-  .photo-preview {
-    margin-top: 8px; width: 80px; height: 60px;
-    border-radius: 6px; object-fit: cover;
-    border: 1px solid var(--border); display: none;
-  }
-
+  .photo-hint { font-size: 0.75rem; color: var(--ink-faint); line-height: 1.5; margin-top: 5px; }
+  .photo-hint code { font-family: monospace; background: var(--warm); padding: 1px 5px; border-radius: 4px; font-size: 0.78rem; color: var(--ink-soft); }
+  .photo-preview { margin-top: 8px; width: 80px; height: 60px; border-radius: 6px; object-fit: cover; border: 1px solid var(--border); display: none; }
   .form-actions { display: flex; gap: 8px; margin-top: 1.25rem; }
-  .btn-save {
-    font-family: var(--sans); font-size: 0.82rem; font-weight: 500;
-    padding: 8px 20px; border-radius: 8px;
-    background: var(--accent); color: white; border: none; cursor: pointer;
-  }
-  .btn-cancel {
-    font-family: var(--sans); font-size: 0.82rem;
-    padding: 8px 16px; border-radius: 8px;
-    background: transparent; color: var(--ink-soft);
-    border: 1px solid var(--border); cursor: pointer;
-  }
+  .btn-save { font-family: var(--sans); font-size: 0.82rem; font-weight: 500; padding: 8px 20px; border-radius: 8px; background: var(--accent); color: white; border: none; cursor: pointer; }
+  .btn-cancel { font-family: var(--sans); font-size: 0.82rem; padding: 8px 16px; border-radius: 8px; background: transparent; color: var(--ink-soft); border: 1px solid var(--border); cursor: pointer; }
+
+  .setup-banner { background: var(--warm); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.82rem; line-height: 1.6; color: var(--ink-soft); }
+  .setup-banner strong { color: var(--ink); font-weight: 500; }
+  .setup-banner code { font-family: monospace; background: white; padding: 1px 6px; border-radius: 4px; font-size: 0.8rem; border: 1px solid var(--border); }
 
   .admin-list { display: flex; flex-direction: column; gap: 8px; }
-  .admin-item {
-    background: var(--card-bg); border: 1px solid var(--border);
-    border-radius: 10px; padding: 0.75rem 1.25rem;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .admin-thumb {
-    width: 52px; height: 40px; border-radius: 6px;
-    object-fit: cover; background: var(--warm); flex-shrink: 0;
-  }
-  .admin-thumb-placeholder {
-    width: 52px; height: 40px; border-radius: 6px;
-    background: var(--warm); display: flex; align-items: center;
-    justify-content: center; font-size: 1.2rem; flex-shrink: 0;
-  }
+  .admin-item { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 0.75rem 1.25rem; display: flex; align-items: center; gap: 12px; }
+  .admin-thumb { width: 52px; height: 40px; border-radius: 6px; object-fit: cover; background: var(--warm); flex-shrink: 0; }
+  .admin-thumb-placeholder { width: 52px; height: 40px; border-radius: 6px; background: var(--warm); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
   .admin-item-info { flex: 1; min-width: 0; }
   .admin-item-name { font-family: var(--serif); font-size: 1rem; font-weight: 400; letter-spacing: 0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .admin-item-cat { font-size: 0.72rem; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 1px; }
-  .btn-delete {
-    font-size: 0.75rem; color: var(--ink-faint);
-    background: transparent; border: 1px solid var(--border);
-    padding: 5px 12px; border-radius: 6px; cursor: pointer;
-    transition: all 0.15s; white-space: nowrap;
-  }
+  .btn-delete { font-size: 0.75rem; color: var(--ink-faint); background: transparent; border: 1px solid var(--border); padding: 5px 12px; border-radius: 6px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
   .btn-delete:hover { border-color: var(--accent); color: var(--accent); }
-
   .empty-state { text-align: center; padding: 3rem 1rem; color: var(--ink-faint); }
 
-  .hero {
-    width: 100%; aspect-ratio: 16/7; object-fit: cover;
-    display: block; border-radius: 14px;
-    margin-bottom: 2rem;
-    border: 1px solid var(--border);
-  }
-
-  .setup-banner {
-    background: var(--warm); border: 1px solid var(--border);
-    border-radius: 10px; padding: 1rem 1.25rem;
-    margin-bottom: 1.5rem; font-size: 0.82rem; line-height: 1.6; color: var(--ink-soft);
-  }
-  .setup-banner strong { color: var(--ink); font-weight: 500; }
-  .setup-banner code {
-    font-family: monospace; background: white;
-    padding: 1px 6px; border-radius: 4px; font-size: 0.8rem;
-    border: 1px solid var(--border);
-  }
-
   @media (max-width: 600px) {
-    header { padding: 1.5rem 1.25rem 1.25rem; }
-    main { padding: 1.25rem; }
+    header { padding: 1.25rem; } main { padding: 1.25rem; }
     .logo { font-size: 2.2rem; }
-    .dishes-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .dishes-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
     .form-grid { grid-template-columns: 1fr; }
   }
 </style>
@@ -283,7 +110,7 @@
 <header>
   <div class="header-inner">
     <img src="photos/photoshero.jpg" alt="" class="profile-photo">
-    <div class="header-text">
+    <div>
       <div class="logo">i<span>cook</span>4U<span style="font-family:var(--sans);font-size:1.2rem;font-weight:300;letter-spacing:0;color:var(--ink-faint);">(*ᴗ͈ˬᴗ͈)</span></div>
     </div>
   </div>
@@ -294,7 +121,7 @@
     <button onclick="adminLogin()" style="font-family:var(--sans);font-size:0.72rem;color:var(--ink-faint);background:transparent;border:none;cursor:pointer;">⚙</button>
   </div>
   <div id="admin-tab-wrap" style="display:none; margin-bottom:1rem;">
-    <button class="nav-tab active" id="admin-tab" onclick="showTab('admin')">Manage dishes</button>
+    <button class="btn-add" id="admin-tab" onclick="showTab('admin')">Manage dishes</button>
   </div>
 
   <!-- MENU -->
@@ -323,12 +150,17 @@
       <button onclick="showTab('menu')" style="font-family:var(--sans);font-size:0.8rem;color:var(--ink-soft);background:transparent;border:1px solid var(--border);padding:6px 16px;border-radius:8px;cursor:pointer;">← Back to menu</button>
     </div>
     <div class="setup-banner">
-      <strong>How to add photos:</strong> Put your images in the <code>photos</code> folder, then type the path below e.g. <code>photos/pasta.jpg</code>.
+      <strong>How to add photos:</strong> Put your images in the <code>photos</code> folder on GitHub, then type the path below e.g. <code>photos/pasta.jpg</code>.
     </div>
-
+    <div class="export-banner" id="export-banner">
+      <strong>✓ Your dishes are ready to publish!</strong> Click the download button below, save the file as <code>index.html</code>, then upload it to GitHub. After that, everyone will see your dishes on any device.
+    </div>
     <div class="admin-header">
       <h2>Your dishes</h2>
-      <button class="btn-add" onclick="toggleForm()">+ Add dish</button>
+      <div class="admin-header-btns">
+        <button class="btn-export" onclick="exportHTML()">⬇ Download updated index.html</button>
+        <button class="btn-add" onclick="toggleForm()">+ Add dish</button>
+      </div>
     </div>
 
     <div class="dish-form" id="dish-form">
@@ -338,14 +170,14 @@
           <input type="text" id="f-name" placeholder="e.g. Pasta carbonara">
         </div>
         <div class="form-row">
-          <label>Category *</label>
-          <input type="text" id="f-cat" placeholder="e.g. Italian, Asian, Comfort…">
+          <label>Category</label>
+          <input type="text" id="f-cat" placeholder="e.g. Italian, Asian…">
         </div>
       </div>
       <div class="form-row">
         <label>Photo path</label>
         <input type="text" id="f-photo" placeholder="photos/my-dish.jpg" oninput="previewPhoto(this.value)">
-        <div class="photo-hint">Type the path to your image file, e.g. <code>photos/pasta.jpg</code><br>Leave blank to show an emoji instead.</div>
+        <div class="photo-hint">Type the filename from your photos folder, e.g. <code>photos/pasta.jpg</code></div>
         <img id="photo-preview" class="photo-preview" alt="preview">
       </div>
       <div class="form-row" style="max-width:120px;">
@@ -375,33 +207,25 @@
 </div>
 
 <script>
-const STORAGE_KEY = 'icook4u_dishes_v2';
-
-const DEFAULTS = [
-  { id: 1, name: "Pasta carbonara", emoji: "🍝", photo: "", cat: "Italian", desc: "Silky egg and guanciale sauce, peppery and rich — a Roman classic done properly." },
-  { id: 2, name: "Chicken tikka masala", emoji: "🍛", photo: "", cat: "Asian", desc: "Tender marinated chicken in a smoky, creamy tomato sauce. Served with basmati." },
+// ── DISHES ARE STORED HERE ── edit between the brackets to hardcode dishes
+const HARDCODED = [
 ];
 
-function loadDishes() {
-  try { const s = localStorage.getItem(STORAGE_KEY); return s ? JSON.parse(s) : [...DEFAULTS]; }
-  catch { return [...DEFAULTS]; }
-}
-function saveDishes(d) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); } catch {} }
-
-let dishes = loadDishes();
+let dishes = HARDCODED.length ? [...HARDCODED] : loadFromStorage();
 let selectedId = null;
-let activeFilter = 'all';
+let editingId = null;
 
-function imgEl(photo, emoji, cls, aspect) {
-  if (photo) return `<img class="${cls}" src="${photo}" alt="" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="${cls.replace('photo','photo-placeholder').replace('confirm-photo','confirm-photo-placeholder').replace('admin-thumb','admin-thumb-placeholder')}" style="display:none;">${emoji||'🍽️'}</div>`;
-  return `<div class="${cls.replace('dish-photo','dish-photo-placeholder').replace('confirm-photo','confirm-photo-placeholder').replace('admin-thumb','admin-thumb-placeholder')}">${emoji||'🍽️'}</div>`;
+function loadFromStorage() {
+  try { const s = localStorage.getItem('icook4u_v3'); return s ? JSON.parse(s) : []; }
+  catch { return []; }
 }
-
-function renderFilters() {} 
+function saveToStorage() {
+  try { localStorage.setItem('icook4u_v3', JSON.stringify(dishes)); } catch {}
+}
 
 function renderGrid() {
   const el = document.getElementById('dishes-grid');
-  if (!dishes.length) { el.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><p>No dishes here yet.</p></div>`; return; }
+  if (!dishes.length) { el.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><p>No dishes yet — add some in the admin panel.</p></div>`; return; }
   el.innerHTML = dishes.map(d => `
     <div class="dish-card ${selectedId===d.id?'selected':''}" onclick="selectDish(${d.id})">
       <div class="dish-check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
@@ -422,27 +246,19 @@ function renderAdmin() {
         : `<div class="admin-thumb-placeholder">${d.emoji||'🍽️'}</div>`}
       <div class="admin-item-info">
         <div class="admin-item-name">${d.name}</div>
-        <div class="admin-item-cat">${d.cat}</div>
+        <div class="admin-item-cat">${d.cat||''}</div>
       </div>
       <button class="btn-delete" onclick="editDish(${d.id})" style="margin-right:4px;">Edit</button>
       <button class="btn-delete" onclick="deleteDish(${d.id})">Remove</button>
     </div>`).join('');
 }
 
-function setFilter(cat) {
-  activeFilter = cat; selectedId = null;
-  document.getElementById('confirm-bar').classList.remove('show');
-  renderFilters(); renderGrid();
-}
-
 function selectDish(id) {
   selectedId = id === selectedId ? null : id;
   const dish = dishes.find(d => d.id === id);
   const bar = document.getElementById('confirm-bar');
-  if (selectedId && dish) {
-    document.getElementById('bar-name').textContent = dish.name;
-    bar.classList.add('show');
-  } else { bar.classList.remove('show'); }
+  if (selectedId && dish) { document.getElementById('bar-name').textContent = dish.name; bar.classList.add('show'); }
+  else { bar.classList.remove('show'); }
   renderGrid();
 }
 
@@ -450,7 +266,7 @@ function confirmPick() {
   const dish = dishes.find(d => d.id === selectedId);
   if (!dish) return;
   document.getElementById('confirm-name').textContent = dish.name;
-  document.getElementById('confirm-desc').textContent = dish.desc;
+  document.getElementById('confirm-desc').textContent = dish.desc||'';
   const wrap = document.getElementById('confirm-img-wrap');
   wrap.innerHTML = dish.photo
     ? `<img class="confirm-photo" src="${dish.photo}" alt="${dish.name}" onerror="this.outerHTML='<div class=confirm-photo-placeholder>${dish.emoji||'🍽️'}</div>'">`
@@ -464,22 +280,13 @@ function goBack() { selectedId = null; renderGrid(); showView('menu'); }
 function adminLogin() {
   if (document.getElementById('view-admin').classList.contains('active')) return;
   const pw = prompt('Password:');
-  if (pw === 'hungry') {
-    document.getElementById('admin-tab-wrap').style.display = 'block';
-    showTab('admin');
-  } else if (pw !== null) {
-    alert('Wrong password!');
-  }
+  if (pw === 'hungry') { document.getElementById('admin-tab-wrap').style.display = 'block'; showTab('admin'); }
+  else if (pw !== null) { alert('Wrong password!'); }
 }
 
 function showTab(tab) {
-  if (tab === 'menu') {
-    showView('menu'); renderGrid();
-    document.getElementById('admin-tab-wrap').style.display = 'none';
-  } else {
-    showView('admin'); renderAdmin();
-    document.getElementById('dish-form').classList.remove('open');
-  }
+  if (tab === 'menu') { showView('menu'); renderGrid(); document.getElementById('admin-tab-wrap').style.display = 'none'; }
+  else { showView('admin'); renderAdmin(); document.getElementById('dish-form').classList.remove('open'); }
 }
 
 function showView(name) {
@@ -508,18 +315,16 @@ function previewPhoto(val) {
   else { prev.style.display = 'none'; prev.src = ''; }
 }
 
-let editingId = null;
-
 function editDish(id) {
   const d = dishes.find(d => d.id === id);
   if (!d) return;
   editingId = id;
   document.getElementById('f-name').value = d.name;
-  document.getElementById('f-emoji').value = d.emoji || '';
-  document.getElementById('f-cat').value = d.cat;
-  document.getElementById('f-photo').value = d.photo || '';
-  document.getElementById('f-desc').value = d.desc || '';
-  previewPhoto(d.photo || '');
+  document.getElementById('f-emoji').value = d.emoji||'';
+  document.getElementById('f-cat').value = d.cat||'';
+  document.getElementById('f-photo').value = d.photo||'';
+  document.getElementById('f-desc').value = d.desc||'';
+  previewPhoto(d.photo||'');
   document.querySelector('.btn-save').textContent = 'Update dish';
   document.getElementById('dish-form').classList.add('open');
   document.getElementById('f-name').focus();
@@ -528,38 +333,47 @@ function editDish(id) {
 function saveDish() {
   const name = document.getElementById('f-name').value.trim();
   if (!name) { document.getElementById('f-name').focus(); return; }
-  if (editingId) {
-    dishes = dishes.map(d => d.id === editingId ? {
-      ...d, name,
-      emoji: document.getElementById('f-emoji').value.trim() || '🍽️',
-      photo: document.getElementById('f-photo').value.trim(),
-      cat: document.getElementById('f-cat').value.trim() || 'Other',
-      desc: document.getElementById('f-desc').value.trim(),
-    } : d);
-    editingId = null;
-  } else {
-    dishes.push({
-      id: Date.now(), name,
-      emoji: document.getElementById('f-emoji').value.trim() || '🍽️',
-      photo: document.getElementById('f-photo').value.trim(),
-      cat: document.getElementById('f-cat').value.trim() || 'Other',
-      desc: document.getElementById('f-desc').value.trim(),
-    });
-  }
-  saveDishes(dishes);
+  const entry = {
+    id: editingId || Date.now(), name,
+    emoji: document.getElementById('f-emoji').value.trim() || '🍽️',
+    photo: document.getElementById('f-photo').value.trim(),
+    cat: document.getElementById('f-cat').value.trim() || 'Other',
+    desc: document.getElementById('f-desc').value.trim(),
+  };
+  if (editingId) { dishes = dishes.map(d => d.id === editingId ? entry : d); editingId = null; }
+  else { dishes.push(entry); }
+  saveToStorage();
   clearForm();
   document.getElementById('dish-form').classList.remove('open');
   renderAdmin();
+  document.getElementById('export-banner').style.display = 'block';
 }
 
 function deleteDish(id) {
   dishes = dishes.filter(d => d.id !== id);
-  saveDishes(dishes);
+  saveToStorage();
   if (selectedId === id) selectedId = null;
   renderAdmin();
+  document.getElementById('export-banner').style.display = 'block';
 }
 
-renderFilters(); renderGrid();
+function exportHTML() {
+  // Get the current page HTML and inject the dishes into HARDCODED
+  const dishesJSON = JSON.stringify(dishes, null, 2);
+  const html = document.documentElement.outerHTML;
+  const updated = html.replace(
+    /const HARDCODED = \[[\s\S]*?\];/,
+    `const HARDCODED = ${dishesJSON};`
+  );
+  const blob = new Blob([updated], { type: 'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'index.html';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+renderGrid();
 </script>
 </body>
 </html>

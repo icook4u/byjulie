@@ -98,6 +98,37 @@
   .btn-delete:hover { border-color: var(--accent); color: var(--accent); }
   .empty-state { text-align: center; padding: 3rem 1rem; color: var(--ink-faint); }
 
+  .lock-screen {
+    position: fixed; inset: 0; background: var(--header-bg);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 999; padding: 2rem;
+  }
+  .lock-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 20px; padding: 2.5rem 2rem;
+    max-width: 340px; width: 100%; text-align: center;
+  }
+  .lock-logo { font-family: var(--serif); font-size: 2.5rem; font-weight: 300; letter-spacing: 0.04em; color: var(--ink); margin-bottom: 0.25rem; }
+  .lock-logo span { color: var(--accent); font-weight: 400; }
+  .lock-kaomoji { font-family: var(--sans); font-size: 1rem; font-weight: 300; color: var(--ink-faint); margin-bottom: 1.75rem; }
+  .lock-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 0.6rem; }
+  .lock-input {
+    width: 100%; font-family: var(--sans); font-size: 1rem;
+    padding: 10px 14px; border: 1px solid var(--border);
+    border-radius: 10px; background: var(--cream); color: var(--ink);
+    outline: none; text-align: center; letter-spacing: 0.15em;
+    transition: border-color 0.15s; margin-bottom: 1rem;
+  }
+  .lock-input:focus { border-color: var(--accent); }
+  .lock-input.error { border-color: #e57373; }
+  .lock-btn {
+    width: 100%; font-family: var(--sans); font-size: 0.9rem; font-weight: 500;
+    padding: 11px; border-radius: 10px; background: var(--accent);
+    color: white; border: none; cursor: pointer; transition: opacity 0.15s;
+  }
+  .lock-btn:hover { opacity: 0.85; }
+  .lock-error { font-size: 0.78rem; color: #e57373; margin-top: 0.6rem; min-height: 1.2em; }
+
   @media (max-width: 600px) {
     header { padding: 1.25rem; } main { padding: 1.25rem; }
     .logo { font-size: 2.2rem; }
@@ -107,6 +138,21 @@
 </style>
 </head>
 <body>
+
+<!-- LOCK SCREEN -->
+<div class="lock-screen" id="lock-screen">
+  <div class="lock-card">
+    <div class="lock-logo">i<span>cook</span>4U</div>
+    <div class="lock-kaomoji">(*ᴗ͈ˬᴗ͈)</div>
+    <div class="lock-label">Enter code to continue</div>
+    <input class="lock-input" id="lock-input" type="password" placeholder="••••••"
+      onkeydown="if(event.key==='Enter') unlock()">
+    <button class="lock-btn" onclick="unlock()">Enter →</button>
+    <div class="lock-error" id="lock-error"></div>
+  </div>
+</div>
+
+<div id="site-wrap" style="display:none;">
 
 <header>
   <div class="header-inner">
@@ -311,7 +357,7 @@ function goBack() { selectedId = null; renderGrid(); showView('menu'); }
 function adminLogin() {
   if (document.getElementById('view-admin').classList.contains('active')) return;
   const pw = prompt('Password:');
-  if (pw === 'hungry') { document.getElementById('admin-tab-wrap').style.display = 'block'; showTab('admin'); }
+  if (pw === 'dishes') { document.getElementById('admin-tab-wrap').style.display = 'block'; showTab('admin'); }
   else if (pw !== null) { alert('Wrong password!'); }
 }
 
@@ -404,7 +450,27 @@ function exportHTML() {
   URL.revokeObjectURL(a.href);
 }
 
+function unlock() {
+  const val = document.getElementById('lock-input').value.trim();
+  if (val === 'hungry') {
+    document.getElementById('lock-screen').style.display = 'none';
+    document.getElementById('site-wrap').style.display = 'block';
+    sessionStorage.setItem('icook4u_unlocked', '1');
+  } else {
+    const input = document.getElementById('lock-input');
+    input.classList.add('error');
+    document.getElementById('lock-error').textContent = 'Wrong code — try again 🙈';
+    setTimeout(() => { input.classList.remove('error'); input.value = ''; }, 1500);
+  }
+}
+
+if (sessionStorage.getItem('icook4u_unlocked')) {
+  document.getElementById('lock-screen').style.display = 'none';
+  document.getElementById('site-wrap').style.display = 'block';
+}
+
 renderGrid();
 </script>
+</div>
 </body>
 </html>

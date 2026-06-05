@@ -319,8 +319,11 @@
 
   <!-- ADMIN -->
   <div class="view" id="view-admin">
+    <div style="margin-bottom:1.25rem;">
+      <button onclick="showTab('menu')" style="font-family:var(--sans);font-size:0.8rem;color:var(--ink-soft);background:transparent;border:1px solid var(--border);padding:6px 16px;border-radius:8px;cursor:pointer;">← Back to menu</button>
+    </div>
     <div class="setup-banner">
-      <strong>How to add photos:</strong> Create a folder called <code>photos</code> next to this HTML file. Put your images in it, then type the filename below (e.g. <code>photos/pasta.jpg</code>). When you upload everything to Netlify, upload the whole folder so the paths stay correct.
+      <strong>How to add photos:</strong> Put your images in the <code>photos</code> folder, then type the path below e.g. <code>photos/pasta.jpg</code>.
     </div>
 
     <div class="admin-header">
@@ -394,12 +397,7 @@ function imgEl(photo, emoji, cls, aspect) {
   return `<div class="${cls.replace('dish-photo','dish-photo-placeholder').replace('confirm-photo','confirm-photo-placeholder').replace('admin-thumb','admin-thumb-placeholder')}">${emoji||'🍽️'}</div>`;
 }
 
-function renderFilters() {
-  const cats = [...new Set(dishes.map(d => d.cat))];
-  document.getElementById('category-filters').innerHTML =
-    `<button class="cat-btn ${activeFilter==='all'?'active':''}" onclick="setFilter('all')">All</button>` +
-    cats.map(c => `<button class="cat-btn ${activeFilter===c?'active':''}" onclick="setFilter('${c}')">${c}</button>`).join('');
-}
+function renderFilters() {} 
 
 function renderGrid() {
   const el = document.getElementById('dishes-grid');

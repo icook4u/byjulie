@@ -342,7 +342,7 @@ function renderGrid() {
     <div class="dish-card ${selectedId===d.id?'selected':''} ${d.desc==='unavailable'?'unavailable':''}" onclick="${d.desc==='unavailable'?'':` selectDish(${d.id})`}">
       <div class="dish-check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
       ${d.photo
-        ? `<img class="dish-photo" src="${d.photo}" alt="${d.name}" onerror="this.outerHTML='<div class=dish-photo-placeholder>${d.emoji||'🍽️'}</div>'">`
+        ? `<img class="dish-photo" src="${d.photo}" alt="${d.name}" style="${d.photo.includes('fritata') ? 'filter:brightness(0.88) contrast(1.05) saturate(1.05);' : ''}" onerror="this.outerHTML='<div class=dish-photo-placeholder>${d.emoji||'🍽️'}</div>'">`
         : `<div class="dish-photo-placeholder">${d.emoji||'🍽️'}</div>`}
       ${d.desc==='unavailable'
         ? `<div class="dish-overlay" style="opacity:1;background:rgba(40,25,55,0.72);flex-direction:column;align-items:center;justify-content:center;gap:6px;">

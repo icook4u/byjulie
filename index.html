@@ -25,10 +25,16 @@
 
   header {
     background: var(--header-bg); color: var(--ink);
-    padding: 2.25rem 2rem 2rem; position: relative;
+    padding: 2rem 2rem; position: relative;
     border-bottom: 1px solid var(--border);
   }
-  .header-inner { max-width: 960px; margin: 0 auto; }
+  .header-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; gap: 1.25rem; }
+  .profile-photo {
+    width: 72px; height: 72px; border-radius: 50%;
+    object-fit: cover; flex-shrink: 0;
+    border: 2px solid var(--border);
+  }
+  .header-text { display: flex; flex-direction: column; }
   .logo { font-family: var(--serif); font-size: 3rem; font-weight: 300; letter-spacing: 0.04em; line-height: 1; color: var(--ink); }
   .logo span { color: var(--accent); font-weight: 400; }
   .tagline { font-size: 0.85rem; font-weight: 300; color: var(--ink-faint); margin-top: 0.4rem; letter-spacing: 0.08em; text-transform: uppercase; }
@@ -275,8 +281,10 @@
 
 <header>
   <div class="header-inner">
-    <div class="logo">i<span>cook</span>4U<span style="font-family:var(--sans);font-size:1.2rem;font-weight:300;letter-spacing:0;color:var(--ink-faint);">(*ᴗ͈ˬᴗ͈)</span></div>
-
+    <img src="photos/photoshero.jpg" alt="" class="profile-photo">
+    <div class="header-text">
+      <div class="logo">i<span>cook</span>4U<span style="font-family:var(--sans);font-size:1.2rem;font-weight:300;letter-spacing:0;color:var(--ink-faint);">(*ᴗ͈ˬᴗ͈)</span></div>
+    </div>
   </div>
 </header>
 
@@ -288,7 +296,6 @@
 
   <!-- MENU -->
   <div class="view active" id="view-menu">
-    <img src="photos/photoshero.jpg" alt="" class="hero">
     <p class="section-label">Pick one dish</p>
     <div class="categories" id="category-filters"></div>
     <div class="dishes-grid" id="dishes-grid"></div>

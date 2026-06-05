@@ -209,6 +209,9 @@
 <script>
 // ── DISHES ARE STORED HERE ── edit between the brackets to hardcode dishes
 const HARDCODED = [
+  { id: 1, name: "Russian Borscht", emoji: "🍲", photo: "photos/borscht.png", cat: "Other", desc: "" },
+  { id: 2, name: "Baked sweet potato with Tuna", emoji: "🍠", photo: "photos/bakespotato.jpg", cat: "Other", desc: "" },
+  { id: 3, name: "Burrata with Parma ham", emoji: "🧀", photo: "photos/burrata.jpg", cat: "Other", desc: "" }
 ];
 
 let dishes = HARDCODED.length ? [...HARDCODED] : loadFromStorage();

@@ -424,6 +424,7 @@ function renderAdmin() {
         <div class="admin-item-name">${d.name}</div>
         <div class="admin-item-cat">${d.cat}</div>
       </div>
+      <button class="btn-delete" onclick="editDish(${d.id})" style="margin-right:4px;">Edit</button>
       <button class="btn-delete" onclick="deleteDish(${d.id})">Remove</button>
     </div>`).join('');
 }
@@ -491,13 +492,14 @@ function toggleForm() {
   const form = document.getElementById('dish-form');
   const open = form.classList.toggle('open');
   if (open) document.getElementById('f-name').focus();
-  else clearForm();
+  else { clearForm(); editingId = null; }
 }
 
 function clearForm() {
   ['f-name','f-emoji','f-cat','f-photo','f-desc'].forEach(id => document.getElementById(id).value = '');
   const prev = document.getElementById('photo-preview');
   prev.style.display = 'none'; prev.src = '';
+  document.querySelector('.btn-save').textContent = 'Save dish';
 }
 
 function previewPhoto(val) {
@@ -506,17 +508,44 @@ function previewPhoto(val) {
   else { prev.style.display = 'none'; prev.src = ''; }
 }
 
+let editingId = null;
+
+function editDish(id) {
+  const d = dishes.find(d => d.id === id);
+  if (!d) return;
+  editingId = id;
+  document.getElementById('f-name').value = d.name;
+  document.getElementById('f-emoji').value = d.emoji || '';
+  document.getElementById('f-cat').value = d.cat;
+  document.getElementById('f-photo').value = d.photo || '';
+  document.getElementById('f-desc').value = d.desc || '';
+  previewPhoto(d.photo || '');
+  document.querySelector('.btn-save').textContent = 'Update dish';
+  document.getElementById('dish-form').classList.add('open');
+  document.getElementById('f-name').focus();
+}
+
 function saveDish() {
   const name = document.getElementById('f-name').value.trim();
   if (!name) { document.getElementById('f-name').focus(); return; }
-  dishes.push({
-    id: Date.now(),
-    name,
-    emoji: document.getElementById('f-emoji').value.trim() || '🍽️',
-    photo: document.getElementById('f-photo').value.trim(),
-    cat: document.getElementById('f-cat').value.trim() || 'Other',
-    desc: document.getElementById('f-desc').value.trim(),
-  });
+  if (editingId) {
+    dishes = dishes.map(d => d.id === editingId ? {
+      ...d, name,
+      emoji: document.getElementById('f-emoji').value.trim() || '🍽️',
+      photo: document.getElementById('f-photo').value.trim(),
+      cat: document.getElementById('f-cat').value.trim() || 'Other',
+      desc: document.getElementById('f-desc').value.trim(),
+    } : d);
+    editingId = null;
+  } else {
+    dishes.push({
+      id: Date.now(), name,
+      emoji: document.getElementById('f-emoji').value.trim() || '🍽️',
+      photo: document.getElementById('f-photo').value.trim(),
+      cat: document.getElementById('f-cat').value.trim() || 'Other',
+      desc: document.getElementById('f-desc').value.trim(),
+    });
+  }
   saveDishes(dishes);
   clearForm();
   document.getElementById('dish-form').classList.remove('open');

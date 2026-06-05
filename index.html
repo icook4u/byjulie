@@ -101,21 +101,30 @@
 
   .lock-screen {
     position: fixed; inset: 0;
-    display: flex; align-items: center; justify-content: flex-start;
-    z-index: 999; padding: 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    z-index: 999; padding: 3rem 5%;
     overflow: hidden;
+    background: var(--header-bg);
   }
-  .lock-bg {
-    position: absolute; inset: 0;
-    background-image: url('photos/photoshero.jpg');
-    background-size: cover; background-position: center;
-    filter: blur(6px) brightness(0.85);
-    transform: scale(1.05);
+  .lock-bg { display: none; }
+  .lock-bg-overlay { display: none; }
+  .lock-dream-bubble {
+    width: min(40vw, 400px); aspect-ratio: 1/1;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 0 6px white, 0 0 0 10px var(--border), 0 12px 48px rgba(160,124,197,0.2);
+    flex-shrink: 0;
   }
-  .lock-bg-overlay {
-    position: absolute; inset: 0;
-    background: rgba(237, 228, 247, 0.55);
+  .lock-dream-bubble img { width: 100%; height: 100%; object-fit: cover; }
+  .lock-bubble-dots {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    flex-shrink: 0;
   }
+  .lock-bubble-dot {
+    background: white; border: 2px solid var(--border); border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(160,124,197,0.2);
+  }
+  .lock-chef-hat { display: none; }
   .lock-card {
     background: var(--card-bg); border: 1px solid var(--border);
     border-radius: 20px; padding: 2.5rem 2rem;
@@ -147,6 +156,12 @@
     .logo { font-size: 2.2rem; }
     .dishes-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
     .form-grid { grid-template-columns: 1fr; }
+    .lock-screen { flex-direction: column; justify-content: center; align-items: center; padding: 2rem 1.5rem; gap: 1.5rem; }
+    .lock-card { max-width: 100%; padding: 1.5rem 1.25rem; }
+    .lock-logo { font-size: 1.8rem; }
+    .lock-kaomoji { margin-bottom: 1rem; }
+    .lock-dream-bubble { width: 50vw; }
+    .lock-bubble-dots { flex-direction: row; }
   }
 </style>
 </head>
@@ -154,9 +169,7 @@
 
 <!-- LOCK SCREEN -->
 <div class="lock-screen" id="lock-screen">
-  <div class="lock-bg"></div>
-  <div class="lock-bg-overlay"></div>
-  <div class="lock-card" style="position:relative; z-index:1; backdrop-filter: blur(2px);">
+  <div class="lock-card" style="position:relative; z-index:2;">
     <div class="lock-logo">i<span>cook</span>4U</div>
     <div class="lock-kaomoji">(*ᴗ͈ˬᴗ͈)</div>
     <div class="lock-label">Enter code to continue to the menu</div>
@@ -165,13 +178,23 @@
     <button class="lock-btn" onclick="unlock()">Enter →</button>
     <div class="lock-error" id="lock-error"></div>
   </div>
+  <div class="lock-bubble-dots">
+    <div class="lock-bubble-dot" style="width:18px;height:18px;"></div>
+    <div class="lock-bubble-dot" style="width:12px;height:12px;"></div>
+    <div class="lock-bubble-dot" style="width:8px;height:8px;"></div>
+  </div>
+  <div class="lock-dream-bubble">
+    <img src="photos/photoshero.jpg" alt="">
+  </div>
 </div>
 
 <div id="site-wrap" style="display:none;">
 
 <header>
   <div class="header-inner">
-    <img src="photos/photoshero.jpg" alt="" class="profile-photo">
+    <div style="position:relative; flex-shrink:0;">
+      <img src="photos/photoshero.jpg" alt="" class="profile-photo">
+    </div>
     <div>
       <div class="logo">i<span>cook</span>4U<span style="font-family:var(--sans);font-size:1.2rem;font-weight:300;letter-spacing:0;color:var(--ink-faint);">(*ᴗ͈ˬᴗ͈)</span></div>
     </div>

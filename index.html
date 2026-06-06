@@ -15,11 +15,11 @@
   }
   body { background: var(--cream); font-family: var(--sans); color: var(--ink); min-height: 100vh; }
 
-  header { background: var(--header-bg); padding: 2rem; border-bottom: 1px solid var(--border); }
+  header { background: transparent; padding: 2rem; border-bottom: 1px solid var(--border); }
   .header-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; gap: 1.25rem; }
   .profile-photo { width: 216px; height: 216px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid var(--border); opacity: 0.75; }
-  .logo { font-family: var(--serif); font-size: 3rem; font-weight: 300; letter-spacing: 0.04em; line-height: 1; color: var(--ink); }
-  .logo span { color: var(--accent); font-weight: 400; }
+  .logo { font-family: var(--serif); font-size: 3rem; font-weight: 400; letter-spacing: 0.04em; line-height: 1; color: #2A1E36; }
+  .logo span { color: #7A56A8; font-weight: 500; }
 
   main { max-width: 960px; margin: 0 auto; padding: 2rem; }
   .view { display: none; } .view.active { display: block; }
@@ -104,7 +104,7 @@
     display: flex; align-items: center; justify-content: center;
     z-index: 999; padding: 2rem;
     overflow: hidden;
-    background: var(--header-bg);
+    background: white;
   }
   .lock-bg { display: none; }
   .lock-bg-overlay { display: none; }

@@ -162,6 +162,8 @@
     .lock-kaomoji { margin-bottom: 1rem; }
     .lock-dream-bubble { width: 50vw; }
     .lock-bubble-dots { flex-direction: row; }
+    .header-inner { flex-wrap: wrap; }
+    .header-made-with { width: 100%; text-align: right; margin-top: 0.25rem; }
   }
 </style>
 </head>
@@ -171,7 +173,6 @@
 <div class="lock-screen" id="lock-screen">
   <div class="lock-card" style="position:relative; z-index:2;">
     <div class="lock-logo">i<span>cook</span>4U</div>
-    <div class="lock-kaomoji">(*ᴗ͈ˬᴗ͈)</div>
     <div class="lock-label">plz enter the code to access the menu</div>
     <input class="lock-input" id="lock-input" type="password" placeholder="••••••"
       onkeydown="if(event.key==='Enter') unlock()">
@@ -190,7 +191,7 @@
     <div style="flex:1;">
       <div class="logo">i<span>cook</span>4U</div>
     </div>
-    <div style="text-align:right;">
+    <div style="text-align:right;" class="header-made-with">
       <div style="font-family:var(--sans);font-size:0.78rem;font-weight:300;color:var(--ink-faint);letter-spacing:0.06em;">made with love by Julie (*ᴗ͈ˬᴗ͈)</div>
     </div>
   </div>
@@ -330,7 +331,7 @@ const HARDCODED = [
   { id: 30, name: "Bone broth",                           emoji: "🍵", photo: "photos/bonebroth.jpg",            cat: "Other", desc: "" },
   { id: 31, name: "Chestnut soup",                        emoji: "🌰", photo: "photos/chestnut.jpg",             cat: "Other", desc: "" },
   { id: 32, name: "Dino nuggets",                         emoji: "🦕", photo: "photos/dinonuggets.jpg",          cat: "Other", desc: "" },
-  { id: 33, name: "Chocolate chip cookies",               emoji: "🍪", photo: "photos/cookies.jpg",              cat: "Other", desc: "" },
+  { id: 33, name: "Chocolate chip cookies",               emoji: "🍪", photo: "photos/cookies.jpeg",             cat: "Other", desc: "" },
   { id: 34, name: "Sourdough bread",                      emoji: "🍞", photo: "photos/bread.jpg",                cat: "Other", desc: "unavailable" }
 ];
 

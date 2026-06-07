@@ -15,11 +15,25 @@
   }
   body { background: var(--cream); font-family: var(--sans); color: var(--ink); min-height: 100vh; }
 
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 0.75; }
+  }
+  @keyframes cardFadeIn {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   header { background: transparent; padding: 2rem; }
   .header-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; gap: 1.25rem; }
-  .profile-photo { width: 216px; height: 216px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid var(--border); opacity: 0.75; }
-  .logo { font-family: var(--serif); font-size: 3rem; font-weight: 400; letter-spacing: 0.04em; line-height: 1; color: #2A1E36; }
+  .profile-photo { width: 216px; height: 216px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid var(--border); opacity: 0; animation: fadeIn 2s ease forwards 0.3s; }
+  .logo { font-family: var(--serif); font-size: 3rem; font-weight: 400; letter-spacing: 0.04em; line-height: 1; color: #2A1E36; opacity: 0; animation: fadeInUp 1.2s ease forwards 0.8s; }
   .logo span { color: #7A56A8; font-weight: 500; }
+  .header-made-with-text { opacity: 0; animation: fadeInUp 1.2s ease forwards 1.2s; }
 
   main { max-width: 960px; margin: 0 auto; padding: 2rem; }
   .view { display: none; } .view.active { display: block; }
@@ -105,6 +119,8 @@
     z-index: 999; padding: 2rem;
     overflow: hidden;
     background: white;
+    background-image: radial-gradient(circle, #E4D9EF 1px, transparent 1px);
+    background-size: 28px 28px;
   }
   .lock-bg { display: none; }
   .lock-bg-overlay { display: none; }
@@ -125,15 +141,39 @@
     box-shadow: 0 2px 8px rgba(160,124,197,0.2);
   }
   .lock-chef-hat { display: none; }
+
+  @keyframes lockCardIn {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    15% { transform: translateX(-8px); }
+    30% { transform: translateX(8px); }
+    45% { transform: translateX(-6px); }
+    60% { transform: translateX(6px); }
+    75% { transform: translateX(-3px); }
+    90% { transform: translateX(3px); }
+  }
+  @keyframes lockLogoIn {
+    from { opacity: 0; letter-spacing: 0.2em; }
+    to { opacity: 1; letter-spacing: 0.04em; }
+  }
+
   .lock-card {
     background: var(--card-bg); border: 1px solid var(--border);
     border-radius: 20px; padding: 2.5rem 2rem;
     max-width: 340px; width: 100%; text-align: center;
+    animation: lockCardIn 1s ease forwards;
   }
-  .lock-logo { font-family: var(--serif); font-size: 2.5rem; font-weight: 300; letter-spacing: 0.04em; color: var(--ink); margin-bottom: 0.25rem; }
+  .lock-card.shake { animation: shake 0.5s ease; }
+  .lock-logo { font-family: var(--serif); font-size: 2.5rem; font-weight: 300; letter-spacing: 0.04em; color: var(--ink); margin-bottom: 0.5rem; animation: lockLogoIn 1.5s ease forwards; }
   .lock-logo span { color: var(--accent); font-weight: 400; }
+  .lock-divider { display: flex; align-items: center; gap: 10px; margin: 0.75rem 0 1.25rem; }
+  .lock-divider-line { flex: 1; height: 1px; background: var(--border); }
+  .lock-divider-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--ink-faint); }
   .lock-kaomoji { font-family: var(--sans); font-size: 1rem; font-weight: 300; color: var(--ink-faint); margin-bottom: 1.75rem; }
-  .lock-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 0.6rem; }
+  .lock-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 0.6rem; white-space: nowrap; }
   .lock-input {
     width: 100%; font-family: var(--sans); font-size: 1rem;
     padding: 10px 14px; border: 1px solid var(--border);
@@ -143,10 +183,15 @@
   }
   .lock-input:focus { border-color: var(--accent); }
   .lock-input.error { border-color: #e57373; }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(160,124,197,0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(160,124,197,0); }
+  }
   .lock-btn {
     width: 100%; font-family: var(--sans); font-size: 0.9rem; font-weight: 500;
     padding: 11px; border-radius: 10px; background: var(--accent);
     color: white; border: none; cursor: pointer; transition: opacity 0.15s;
+    animation: pulse 2.5s ease-in-out infinite;
   }
   .lock-btn:hover { opacity: 0.85; }
   .lock-error { font-size: 0.78rem; color: #e57373; margin-top: 0.6rem; min-height: 1.2em; }
@@ -173,6 +218,7 @@
 <div class="lock-screen" id="lock-screen">
   <div class="lock-card" style="position:relative; z-index:2;">
     <div class="lock-logo">i<span>cook</span>4U</div>
+    <div class="lock-divider"><div class="lock-divider-line"></div><div class="lock-divider-dot"></div><div class="lock-divider-line"></div></div>
     <div class="lock-label">plz enter the code to access the menu</div>
     <input class="lock-input" id="lock-input" type="password" placeholder="••••••"
       onkeydown="if(event.key==='Enter') unlock()">
@@ -192,7 +238,7 @@
       <div class="logo">i<span>cook</span>4U</div>
     </div>
     <div style="text-align:right;" class="header-made-with">
-      <div style="font-family:var(--sans);font-size:0.78rem;font-weight:300;color:var(--ink-faint);letter-spacing:0.06em;">made with love by Julie (*ᴗ͈ˬᴗ͈)</div>
+      <div class="header-made-with-text" style="font-family:var(--sans);font-size:0.95rem;font-weight:300;color:var(--ink-faint);letter-spacing:0.06em;">made with love by Julie (*ᴗ͈ˬᴗ͈)</div>
     </div>
   </div>
 </header>
@@ -350,8 +396,8 @@ function saveToStorage() {
 function renderGrid() {
   const el = document.getElementById('dishes-grid');
   if (!dishes.length) { el.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><p>No dishes yet — add some in the admin panel.</p></div>`; return; }
-  el.innerHTML = dishes.map(d => `
-    <div class="dish-card ${selectedId===d.id?'selected':''} ${d.desc==='unavailable'?'unavailable':''}" onclick="${d.desc==='unavailable'?'':` selectDish(${d.id})`}">
+  el.innerHTML = dishes.map((d, idx) => `
+    <div class="dish-card ${selectedId===d.id?'selected':''} ${d.desc==='unavailable'?'unavailable':''}" onclick="${d.desc==='unavailable'?'':` selectDish(${d.id})`}" style="opacity:0; animation: cardFadeIn 0.8s ease forwards ${0.06 * idx}s;">
       <div class="dish-check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
       ${d.photo
         ? `<img class="dish-photo" src="${d.photo}" alt="${d.name}" style="${d.photo.includes('fritata') ? 'filter:brightness(0.88) contrast(1.05) saturate(1.05);' : ''}" onerror="this.outerHTML='<div class=dish-photo-placeholder>${d.emoji||'🍽️'}</div>'">`
@@ -522,10 +568,12 @@ function unlock() {
     document.getElementById('site-wrap').style.display = 'block';
     sessionStorage.setItem('icook4u_unlocked', '1');
   } else {
+    const card = document.querySelector('.lock-card');
     const input = document.getElementById('lock-input');
-    input.classList.add('error');
     document.getElementById('lock-error').textContent = 'Wrong code — try again 🙈';
-    setTimeout(() => { input.classList.remove('error'); input.value = ''; }, 1500);
+    input.classList.add('error');
+    card.classList.add('shake');
+    setTimeout(() => { card.classList.remove('shake'); input.classList.remove('error'); input.value = ''; }, 600);
   }
 }
 

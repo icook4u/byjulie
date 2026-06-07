@@ -203,8 +203,13 @@
 
   <!-- MENU -->
   <div class="view active" id="view-menu">
+    <div style="text-align:center; margin-bottom:1.75rem;">
+      <p style="font-family:var(--serif); font-size:2rem; font-weight:300; letter-spacing:0.04em; color:#2A1E36;">Today I fancy...</p>
+    </div>
     <div class="dishes-grid" id="dishes-grid"></div>
-    <div style="height:80px;"></div>
+    <div style="text-align:center; padding:2rem 0 6rem;">
+      <button onclick="surpriseMe()" style="font-family:var(--sans); font-size:0.82rem; font-weight:500; padding:9px 22px; border-radius:99px; background:transparent; color:var(--accent); border:1.5px solid var(--accent); cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='var(--accent-light)'" onmouseout="this.style.background='transparent'">✨ Surprise me!</button>
+    </div>
   </div>
 
   <!-- CONFIRMATION -->
@@ -219,6 +224,7 @@
         <a id="whatsapp-btn" href="#" target="_blank" style="display:block; text-align:center; background:#25D366; color:white; font-family:var(--sans); font-size:0.9rem; font-weight:500; padding:12px 24px; border-radius:8px; text-decoration:none; margin-bottom:10px;">
           Send my pick on WhatsApp 💬
         </a>
+        <div id="sent-message" style="display:none; text-align:center; font-family:var(--serif); font-size:1.1rem; color:var(--ink-soft); padding:0.75rem 0; letter-spacing:0.01em;">alrighty I'll make it with love 😘</div>
         <button class="btn-back" onclick="goBack()">← Choose something else</button>
       </div>
     </div>
@@ -382,17 +388,27 @@ function selectDish(id) {
   renderGrid();
 }
 
+function surpriseMe() {
+  const available = dishes.filter(d => d.desc !== 'unavailable');
+  const pick = available[Math.floor(Math.random() * available.length)];
+  selectedId = pick.id;
+  confirmPick();
+}
+
 function confirmPick() {
   const dish = dishes.find(d => d.id === selectedId);
   if (!dish) return;
   document.getElementById('confirm-name').textContent = dish.name;
-  document.getElementById('confirm-desc').textContent = dish.desc||'';
+  document.getElementById('confirm-desc').textContent = dish.desc === 'unavailable' ? '' : (dish.desc||'');
   const wrap = document.getElementById('confirm-img-wrap');
   wrap.innerHTML = dish.photo
     ? `<img class="confirm-photo" src="${dish.photo}" alt="${dish.name}" onerror="this.outerHTML='<div class=confirm-photo-placeholder>${dish.emoji||'🍽️'}</div>'">`
     : `<div class="confirm-photo-placeholder">${dish.emoji||'🍽️'}</div>`;
   const msg = encodeURIComponent(`🍽️ I'd love to eat: ${dish.name}`);
-  document.getElementById('whatsapp-btn').href = `https://wa.me/491724382147?text=${msg}`;
+  const waBtn = document.getElementById('whatsapp-btn');
+  waBtn.href = `https://wa.me/491724382147?text=${msg}`;
+  waBtn.onclick = () => { setTimeout(() => { document.getElementById('sent-message').style.display = 'block'; }, 300); };
+  document.getElementById('sent-message').style.display = 'none';
   document.getElementById('confirm-bar').classList.remove('show');
   showView('confirm');
 }

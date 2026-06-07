@@ -437,7 +437,8 @@ function renderGrid() {
     return `<div class="dish-card ${unavail?'unavailable':''}" data-id="${d.id}" style="opacity:0; animation: cardFadeIn 0.6s ease forwards ${0.9 + 0.04 * idx}s;">
       <div class="dish-check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
       ${d.photo
-        ? `<img class="dish-photo" src="${d.photo}" alt="">`
+        ? `<img class="dish-photo" src="${d.photo}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+           <div class="dish-photo-placeholder" style="display:none; pointer-events:none;"></div>`
         : `<div class="dish-photo-placeholder" style="pointer-events:none;"></div>`}
       ${unavail
         ? `<div class="dish-overlay" style="background:rgba(40,25,55,0.72);flex-direction:column;align-items:center;justify-content:center;gap:6px;">
@@ -456,13 +457,12 @@ function renderGrid() {
   });
 
   dishes.forEach(d => {
-    if (!d.photo) {
-      const cards = el.querySelectorAll('.dish-card');
-      const idx = dishes.indexOf(d);
-      if (cards[idx]) {
-        const placeholder = cards[idx].querySelector('.dish-photo-placeholder');
-        if (placeholder) placeholder.textContent = d.emoji || '🍽️';
-      }
+    const cards = el.querySelectorAll('.dish-card');
+    const idx = dishes.indexOf(d);
+    if (cards[idx]) {
+      cards[idx].querySelectorAll('.dish-photo-placeholder').forEach(p => {
+        p.textContent = d.emoji || '🍽️';
+      });
     }
   });
 }

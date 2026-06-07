@@ -439,7 +439,7 @@ function renderGrid() {
     </div>`).join('');
   el.querySelectorAll('.dish-card:not(.unavailable)').forEach(card => {
     card.addEventListener('click', () => {
-      selectedId = parseInt(card.dataset.id);
+      selectedId = Number(card.dataset.id);
       confirmPick();
     });
   });
@@ -503,7 +503,7 @@ function confirmPick() {
   document.getElementById('confirm-desc').textContent = dish.desc === 'unavailable' ? '' : (dish.desc||'');
   const wrap = document.getElementById('confirm-img-wrap');
   wrap.innerHTML = dish.photo
-    ? `<img class="confirm-photo" src="${dish.photo}" alt="${dish.name}" onerror="this.outerHTML='<div class=confirm-photo-placeholder>${dish.emoji||'🍽️'}</div>'">`
+    ? `<img class="confirm-photo" src="${dish.photo}" alt="${dish.name}">`
     : `<div class="confirm-photo-placeholder">${dish.emoji||'🍽️'}</div>`;
   const msg = encodeURIComponent(`🍽️ I'd love to eat: ${dish.name}`);
   const waBtn = document.getElementById('whatsapp-btn');

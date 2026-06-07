@@ -459,6 +459,12 @@ function renderAdmin() {
 }
 
 function selectDish(id) {
+  const isMobile = window.innerWidth <= 600;
+  if (isMobile) {
+    selectedId = id;
+    confirmPick();
+    return;
+  }
   selectedId = id === selectedId ? null : id;
   const dish = dishes.find(d => d.id === id);
   const bar = document.getElementById('confirm-bar');

@@ -466,9 +466,18 @@ function selectDish(id) {
   selectedId = id === selectedId ? null : id;
   const dish = dishes.find(d => d.id === id);
   const bar = document.getElementById('confirm-bar');
-  if (selectedId && dish) { document.getElementById('bar-name').textContent = dish.name; bar.classList.add('show'); }
-  else { bar.classList.remove('show'); }
-  renderGrid();
+  if (selectedId && dish) {
+    document.getElementById('bar-name').textContent = dish.name;
+    bar.classList.add('show');
+  } else {
+    bar.classList.remove('show');
+  }
+  document.querySelectorAll('.dish-card').forEach(card => card.classList.remove('selected'));
+  if (selectedId) {
+    const cards = document.querySelectorAll('.dish-card');
+    const idx = dishes.findIndex(d => d.id === selectedId);
+    if (cards[idx]) cards[idx].classList.add('selected');
+  }
 }
 
 function spawnHearts() {

@@ -457,26 +457,19 @@ function renderAdmin() {
 }
 
 function selectDish(id) {
-  const isMobile = window.innerWidth <= 600;
-  if (isMobile) {
-    selectedId = id;
-    confirmPick();
-    return;
-  }
-  selectedId = id === selectedId ? null : id;
+  selectedId = id;
   const dish = dishes.find(d => d.id === id);
-  const bar = document.getElementById('confirm-bar');
-  if (selectedId && dish) {
-    document.getElementById('bar-name').textContent = dish.name;
-    bar.classList.add('show');
+  if (!dish) return;
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    confirmPick();
   } else {
-    bar.classList.remove('show');
-  }
-  document.querySelectorAll('.dish-card').forEach(card => card.classList.remove('selected'));
-  if (selectedId) {
-    const cards = document.querySelectorAll('.dish-card');
-    const idx = dishes.findIndex(d => d.id === selectedId);
-    if (cards[idx]) cards[idx].classList.add('selected');
+    document.querySelectorAll('.dish-card').forEach(c => c.classList.remove('selected'));
+    const allCards = document.querySelectorAll('.dish-card');
+    const idx = dishes.findIndex(d => d.id === id);
+    if (allCards[idx]) allCards[idx].classList.add('selected');
+    document.getElementById('bar-name').textContent = dish.name;
+    document.getElementById('confirm-bar').classList.add('show');
   }
 }
 

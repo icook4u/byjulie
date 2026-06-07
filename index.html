@@ -424,10 +424,10 @@ function renderGrid() {
   const el = document.getElementById('dishes-grid');
   if (!dishes.length) { el.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><p>No dishes yet — add some in the admin panel.</p></div>`; return; }
   el.innerHTML = dishes.map((d, idx) => `
-    <div class="dish-card ${d.desc==='unavailable'?'unavailable':''}" onclick="${d.desc==='unavailable'?'':'selectDish('+d.id+')'}" style="opacity:0; animation: cardFadeIn 0.6s ease forwards ${0.9 + 0.04 * idx}s;">
+    <div class="dish-card ${d.desc==='unavailable'?'unavailable':''}" data-id="${d.id}" style="opacity:0; animation: cardFadeIn 0.6s ease forwards ${0.9 + 0.04 * idx}s;">
       <div class="dish-check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
       ${d.photo
-        ? `<img class="dish-photo" src="${d.photo}" alt="${d.name}" style="${d.photo.includes('fritata') ? 'filter:brightness(0.88) contrast(1.05) saturate(1.05);' : ''}" onerror="this.outerHTML='<div class=dish-photo-placeholder>${d.emoji||'🍽️'}</div>'">`
+        ? `<img class="dish-photo" src="${d.photo}" alt="${d.name}">`
         : `<div class="dish-photo-placeholder">${d.emoji||'🍽️'}</div>`}
       ${d.desc==='unavailable'
         ? `<div class="dish-overlay" style="background:rgba(40,25,55,0.72);flex-direction:column;align-items:center;justify-content:center;gap:6px;">
@@ -437,6 +437,12 @@ function renderGrid() {
            </div>`
         : `<div class="dish-overlay"><div class="dish-name">${d.name}</div></div>`}
     </div>`).join('');
+  el.querySelectorAll('.dish-card:not(.unavailable)').forEach(card => {
+    card.addEventListener('click', () => {
+      selectedId = parseInt(card.dataset.id);
+      confirmPick();
+    });
+  });
 }
 
 function renderAdmin() {

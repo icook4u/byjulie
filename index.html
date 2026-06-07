@@ -514,6 +514,8 @@ function confirmPick() {
   waBtn.onclick = () => {
     setTimeout(() => { spawnHearts(); typewriter(sentEl, "alrighty I'll make it with love 😘", 45); }, 300);
   };
+  document.getElementById('confirm-bar').classList.remove('show');
+  showView('confirm');
   setTimeout(spawnHearts, 400);
 }
 

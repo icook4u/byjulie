@@ -43,13 +43,13 @@
   .dish-card { border-radius: 20px; overflow: hidden; cursor: pointer; position: relative; aspect-ratio: 3/4; border: 2px solid transparent; box-shadow: 0 4px 20px rgba(100,70,140,0.08); transition: border-color 0.2s, transform 0.25s, box-shadow 0.25s; }
   .dish-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(100,70,140,0.16); }
   .dish-card.selected { border-color: var(--accent); }
-  .dish-photo { width: 100%; height: 100%; object-fit: cover; display: block; background: var(--warm); transition: transform 0.5s ease; }
+  .dish-photo { width: 100%; height: 100%; object-fit: cover; display: block; background: var(--warm); transition: transform 0.5s ease; pointer-events: none; }
   .dish-card:hover .dish-photo { transform: scale(1.04); }
-  .dish-photo-placeholder { width: 100%; height: 100%; background: var(--warm); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
-  .dish-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(40,25,55,0.78) 0%, rgba(40,25,55,0.05) 50%, transparent 70%); opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: flex-end; padding: 1.25rem; }
+  .dish-photo-placeholder { width: 100%; height: 100%; background: var(--warm); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; pointer-events: none; }
+  .dish-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(40,25,55,0.78) 0%, rgba(40,25,55,0.05) 50%, transparent 70%); opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: flex-end; padding: 1.25rem; pointer-events: none; }
   .dish-card:hover .dish-overlay, .dish-card.selected .dish-overlay { opacity: 1; }
-  .dish-name { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; color: #fff; line-height: 1.3; letter-spacing: 0.02em; }
-  .dish-check { position: absolute; top: 12px; right: 12px; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+  .dish-name { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; color: #fff; line-height: 1.3; letter-spacing: 0.02em; pointer-events: none; }
+  .dish-check { position: absolute; top: 12px; right: 12px; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; box-shadow: 0 2px 8px rgba(0,0,0,0.2); pointer-events: none; }
   .dish-card.selected .dish-check { opacity: 1; }
   .dish-card.unavailable { cursor: default; opacity: 0.8; }
   .dish-check svg { width: 11px; height: 11px; stroke: white; stroke-width: 2.5; fill: none; }
@@ -423,25 +423,38 @@ function saveToStorage() {
 function renderGrid() {
   const el = document.getElementById('dishes-grid');
   if (!dishes.length) { el.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><p>No dishes yet — add some in the admin panel.</p></div>`; return; }
-  el.innerHTML = dishes.map((d, idx) => `
-    <div class="dish-card ${d.desc==='unavailable'?'unavailable':''}" data-id="${d.id}" style="opacity:0; animation: cardFadeIn 0.6s ease forwards ${0.9 + 0.04 * idx}s;">
+  el.innerHTML = dishes.map((d, idx) => {
+    const unavail = d.desc === 'unavailable';
+    return `<div class="dish-card ${unavail?'unavailable':''}" data-id="${d.id}" style="opacity:0; animation: cardFadeIn 0.6s ease forwards ${0.9 + 0.04 * idx}s;">
       <div class="dish-check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
       ${d.photo
-        ? `<img class="dish-photo" src="${d.photo}" alt="${d.name}">`
-        : `<div class="dish-photo-placeholder">${d.emoji||'🍽️'}</div>`}
-      ${d.desc==='unavailable'
+        ? `<img class="dish-photo" src="${d.photo}" alt="">`
+        : `<div class="dish-photo-placeholder" style="pointer-events:none;"></div>`}
+      ${unavail
         ? `<div class="dish-overlay" style="background:rgba(40,25,55,0.72);flex-direction:column;align-items:center;justify-content:center;gap:6px;">
-             <span style="font-size:1.8rem;">😢</span>
              <div class="dish-name" style="text-align:center;">${d.name}</div>
              <div style="font-family:var(--sans);font-size:0.7rem;color:rgba(255,255,255,0.75);letter-spacing:0.06em;text-transform:uppercase;">No longer available</div>
            </div>`
         : `<div class="dish-overlay"><div class="dish-name">${d.name}</div></div>`}
-    </div>`).join('');
+    </div>`;
+  }).join('');
+
   el.querySelectorAll('.dish-card:not(.unavailable)').forEach(card => {
     card.addEventListener('click', () => {
       selectedId = Number(card.dataset.id);
       confirmPick();
     });
+  });
+
+  dishes.forEach(d => {
+    if (!d.photo) {
+      const cards = el.querySelectorAll('.dish-card');
+      const idx = dishes.indexOf(d);
+      if (cards[idx]) {
+        const placeholder = cards[idx].querySelector('.dish-photo-placeholder');
+        if (placeholder) placeholder.textContent = d.emoji || '🍽️';
+      }
+    }
   });
 }
 

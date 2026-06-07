@@ -30,10 +30,10 @@
 
   header { background: transparent; padding: 2rem; }
   .header-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; gap: 1.25rem; }
-  .profile-photo { width: 216px; height: 216px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid var(--border); opacity: 0; animation: fadeIn 2s ease forwards 0.3s; }
-  .logo { font-family: var(--serif); font-size: 3rem; font-weight: 400; letter-spacing: 0.04em; line-height: 1; color: #2A1E36; opacity: 0; animation: fadeInUp 1.2s ease forwards 0.8s; }
+  .profile-photo { width: 216px; height: 216px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid var(--border); opacity: 0; animation: fadeIn 1s ease forwards 0.2s; }
+  .logo { font-family: var(--serif); font-size: 3rem; font-weight: 400; letter-spacing: 0.04em; line-height: 1; color: #2A1E36; opacity: 0; animation: fadeInUp 0.7s ease forwards 0.4s; }
   .logo span { color: #7A56A8; font-weight: 500; }
-  .header-made-with-text { opacity: 0; animation: fadeInUp 1.2s ease forwards 1.2s; }
+  .header-made-with-text { opacity: 0; animation: fadeInUp 0.7s ease forwards 0.6s; }
 
   main { max-width: 960px; margin: 0 auto; padding: 2rem; }
   .view { display: none; } .view.active { display: block; }
@@ -279,11 +279,11 @@
 
   <!-- MENU -->
   <div class="view active" id="view-menu">
-    <div style="text-align:center; margin-bottom:1.75rem; opacity:0; animation: fadeInUp 1s ease forwards 1.6s;">
+    <div style="text-align:center; margin-bottom:1.75rem; opacity:0; animation: fadeInUp 0.7s ease forwards 0.8s;">
       <p style="font-family:var(--serif); font-size:2rem; font-weight:300; letter-spacing:0.04em; color:#2A1E36;">what you wanna eat?</p>
     </div>
     <div class="dishes-grid" id="dishes-grid"></div>
-    <div style="text-align:center; padding:2rem 0 6rem; opacity:0; animation: fadeInUp 1s ease forwards 2s;">
+    <div style="text-align:center; padding:2rem 0 6rem; opacity:0; animation: fadeInUp 0.7s ease forwards 1s;">
       <button onclick="surpriseMe()" style="font-family:var(--sans); font-size:0.82rem; font-weight:500; padding:9px 22px; border-radius:99px; background:transparent; color:var(--accent); border:1.5px solid var(--accent); cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='var(--accent-light)'" onmouseout="this.style.background='transparent'">✨ Surprise me!</button>
     </div>
   </div>
@@ -424,7 +424,7 @@ function renderGrid() {
   const el = document.getElementById('dishes-grid');
   if (!dishes.length) { el.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><p>No dishes yet — add some in the admin panel.</p></div>`; return; }
   el.innerHTML = dishes.map((d, idx) => `
-    <div class="dish-card ${selectedId===d.id?'selected':''} ${d.desc==='unavailable'?'unavailable':''}" onclick="${d.desc==='unavailable'?'':` selectDish(${d.id})`}" style="opacity:0; animation: cardFadeIn 0.8s ease forwards ${1.8 + 0.06 * idx}s;">
+    <div class="dish-card ${selectedId===d.id?'selected':''} ${d.desc==='unavailable'?'unavailable':''}" onclick="${d.desc==='unavailable'?'':` selectDish(${d.id})`}" style="opacity:0; animation: cardFadeIn 0.6s ease forwards ${0.9 + 0.04 * idx}s;">
       <div class="dish-check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
       ${d.photo
         ? `<img class="dish-photo" src="${d.photo}" alt="${d.name}" style="${d.photo.includes('fritata') ? 'filter:brightness(0.88) contrast(1.05) saturate(1.05);' : ''}" onerror="this.outerHTML='<div class=dish-photo-placeholder>${d.emoji||'🍽️'}</div>'">`
@@ -458,19 +458,7 @@ function renderAdmin() {
 
 function selectDish(id) {
   selectedId = id;
-  const dish = dishes.find(d => d.id === id);
-  if (!dish) return;
-  const isMobile = window.innerWidth <= 768;
-  if (isMobile) {
-    confirmPick();
-  } else {
-    document.querySelectorAll('.dish-card').forEach(c => c.classList.remove('selected'));
-    const allCards = document.querySelectorAll('.dish-card');
-    const idx = dishes.findIndex(d => d.id === id);
-    if (allCards[idx]) allCards[idx].classList.add('selected');
-    document.getElementById('bar-name').textContent = dish.name;
-    document.getElementById('confirm-bar').classList.add('show');
-  }
+  confirmPick();
 }
 
 function spawnHearts() {

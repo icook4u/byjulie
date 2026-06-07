@@ -38,9 +38,9 @@
   main { max-width: 960px; margin: 0 auto; padding: 2rem; }
   .view { display: none; } .view.active { display: block; }
 
-  .dishes-grid { columns: 3; gap: 16px; padding: 0.5rem 0; }
+  .dishes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 0.5rem 0; align-items: start; }
 
-  .dish-card { border-radius: 20px; overflow: hidden; cursor: pointer; position: relative; break-inside: avoid; margin-bottom: 16px; border: 2px solid transparent; box-shadow: 0 4px 20px rgba(100,70,140,0.08); transition: border-color 0.2s, transform 0.25s, box-shadow 0.25s; }
+  .dish-card { border-radius: 20px; overflow: hidden; cursor: pointer; position: relative; border: 2px solid transparent; box-shadow: 0 4px 20px rgba(100,70,140,0.08); transition: border-color 0.2s, transform 0.25s, box-shadow 0.25s; }
   .dish-card:nth-child(3n+1) { height: 280px; }
   .dish-card:nth-child(3n+2) { height: 220px; }
   .dish-card:nth-child(3n+3) { height: 250px; }
@@ -232,7 +232,7 @@
   @media (max-width: 600px) {
     header { padding: 1.25rem; } main { padding: 1.25rem; }
     .logo { font-size: 2.2rem; }
-    .dishes-grid { columns: 2; gap: 10px; }
+    .dishes-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .form-grid { grid-template-columns: 1fr; }
     .lock-screen { flex-direction: column; justify-content: center; align-items: center; padding: 2rem 1.5rem; gap: 1.5rem; }
     .lock-card { max-width: 100%; padding: 1.5rem 1.25rem; }
@@ -377,7 +377,7 @@
 const HARDCODED = [
   { id: 1,  name: "Ukrainian Borscht",                    emoji: "🍲", photo: "photos/borscht.png",              cat: "Other", desc: "" },
   { id: 2,  name: "Quiche",                               emoji: "🥧", photo: "photos/quiche.jpg",               cat: "Other", desc: "" },
-  { id: 3,  name: "Baked sweet potato with tuna",         emoji: "🍠", photo: "photos/bakespotato.jpg",          cat: "Other", desc: "" },
+  { id: 3,  name: "Baked sweet potato with tuna",         emoji: "🍠", photo: "photos/bakedpotato.jpg",          cat: "Other", desc: "" },
   { id: 4,  name: "Burrata with Parma ham",               emoji: "🧀", photo: "photos/burrata.jpg",              cat: "Other", desc: "" },
   { id: 5,  name: "Lamb tajine",                          emoji: "🍖", photo: "photos/lamtajine.jpg",            cat: "Other", desc: "" },
   { id: 6,  name: "Pumpkin curry",                        emoji: "🎃", photo: "photos/pumpkincurry.jpg",         cat: "Other", desc: "" },

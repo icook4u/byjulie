@@ -61,16 +61,42 @@
   .btn-confirm { font-family: var(--sans); font-size: 0.85rem; font-weight: 500; padding: 10px 24px; border-radius: 8px; background: #fff; color: var(--accent); border: none; cursor: pointer; white-space: nowrap; transition: opacity 0.15s; }
   .btn-confirm:hover { opacity: 0.88; }
 
-  .confirm-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; max-width: 500px; margin: 0 auto; }
-  .confirm-photo { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; background: var(--warm); }
+  @keyframes photoReveal {
+    from { transform: scale(1.08); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  @keyframes ribbonSlide {
+    from { opacity: 0; transform: translateX(-16px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes nameFade {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes floatHeart {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    80% { opacity: 0.6; }
+    100% { opacity: 0; transform: translateY(-120px) scale(0.6); }
+  }
+  @keyframes waBounce {
+    0%, 100% { transform: scale(1); }
+    40% { transform: scale(1.06); }
+    60% { transform: scale(0.97); }
+  }
+
+  .confirm-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; max-width: 500px; margin: 0 auto; position: relative; }
+  .confirm-photo { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; background: var(--warm); animation: photoReveal 1.2s ease forwards; }
   .confirm-photo-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--warm); display: flex; align-items: center; justify-content: center; font-size: 4rem; }
   .confirm-body { padding: 1.75rem 2rem; }
-  .confirm-ribbon { display: inline-block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: white; background: var(--accent); padding: 3px 12px; border-radius: 99px; margin-bottom: 0.75rem; }
-  .confirm-dish-name { font-family: var(--serif); font-size: 1.8rem; font-weight: 400; letter-spacing: 0.02em; margin-bottom: 0.5rem; }
+  .confirm-ribbon { display: inline-block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: white; background: var(--accent); padding: 3px 12px; border-radius: 99px; margin-bottom: 0.75rem; animation: ribbonSlide 0.6s ease forwards 0.4s; opacity: 0; }
+  .confirm-dish-name { font-family: var(--serif); font-size: 1.8rem; font-weight: 400; letter-spacing: 0.02em; margin-bottom: 0.5rem; animation: nameFade 0.8s ease forwards 0.7s; opacity: 0; }
   .confirm-dish-desc { font-size: 0.85rem; font-weight: 300; line-height: 1.6; color: var(--ink-soft); margin-bottom: 1.5rem; }
   .divider { height: 1px; background: var(--border); margin: 1.25rem 0; }
   .btn-back { font-family: var(--sans); font-size: 0.8rem; color: var(--ink-soft); background: transparent; border: 1px solid var(--border); padding: 8px 18px; border-radius: 8px; cursor: pointer; transition: all 0.15s; width: 100%; }
   .btn-back:hover { border-color: var(--ink); color: var(--ink); }
+  .hearts-container { position: absolute; bottom: 0; left: 0; right: 0; pointer-events: none; overflow: hidden; height: 200px; }
+  .heart { position: absolute; font-size: 1.2rem; animation: floatHeart 2s ease forwards; }
+  #whatsapp-btn { animation: waBounce 0.5s ease forwards 1.5s; }
 
   .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 8px; }
   .admin-header h2 { font-family: var(--serif); font-size: 1.5rem; font-weight: 400; letter-spacing: 0.02em; }
@@ -142,10 +168,16 @@
   }
   .lock-chef-hat { display: none; }
 
-  @keyframes lockCardIn {
-    from { opacity: 0; transform: translateY(28px); }
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
   }
+  @keyframes siteIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  #site-wrap { opacity: 0; }
+  #site-wrap.visible { animation: siteIn 1.2s ease forwards; }
   @keyframes shake {
     0%, 100% { transform: translateX(0); }
     15% { transform: translateX(-8px); }
@@ -253,11 +285,11 @@
 
   <!-- MENU -->
   <div class="view active" id="view-menu">
-    <div style="text-align:center; margin-bottom:1.75rem;">
+    <div style="text-align:center; margin-bottom:1.75rem; opacity:0; animation: fadeInUp 1s ease forwards 1.6s;">
       <p style="font-family:var(--serif); font-size:2rem; font-weight:300; letter-spacing:0.04em; color:#2A1E36;">Today I fancy...</p>
     </div>
     <div class="dishes-grid" id="dishes-grid"></div>
-    <div style="text-align:center; padding:2rem 0 6rem;">
+    <div style="text-align:center; padding:2rem 0 6rem; opacity:0; animation: fadeInUp 1s ease forwards 2s;">
       <button onclick="surpriseMe()" style="font-family:var(--sans); font-size:0.82rem; font-weight:500; padding:9px 22px; border-radius:99px; background:transparent; color:var(--accent); border:1.5px solid var(--accent); cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='var(--accent-light)'" onmouseout="this.style.background='transparent'">✨ Surprise me!</button>
     </div>
   </div>
@@ -266,6 +298,7 @@
   <div class="view" id="view-confirm">
     <div class="confirm-card">
       <div id="confirm-img-wrap"></div>
+      <div class="hearts-container" id="hearts-container"></div>
       <div class="confirm-body">
         <div class="confirm-ribbon">Tonight's pick ✓</div>
         <div class="confirm-dish-name" id="confirm-name"></div>
@@ -274,7 +307,7 @@
         <a id="whatsapp-btn" href="#" target="_blank" style="display:block; text-align:center; background:#25D366; color:white; font-family:var(--sans); font-size:0.9rem; font-weight:500; padding:12px 24px; border-radius:8px; text-decoration:none; margin-bottom:10px;">
           Send my pick on WhatsApp 💬
         </a>
-        <div id="sent-message" style="display:none; text-align:center; font-family:var(--serif); font-size:1.1rem; color:var(--ink-soft); padding:0.75rem 0; letter-spacing:0.01em;">alrighty I'll make it with love 😘</div>
+        <div id="sent-message" style="display:none; text-align:center; font-family:var(--serif); font-size:1.1rem; color:var(--ink-soft); padding:0.75rem 0; letter-spacing:0.01em;"></div>
         <button class="btn-back" onclick="goBack()">← Choose something else</button>
       </div>
     </div>
@@ -397,7 +430,7 @@ function renderGrid() {
   const el = document.getElementById('dishes-grid');
   if (!dishes.length) { el.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><p>No dishes yet — add some in the admin panel.</p></div>`; return; }
   el.innerHTML = dishes.map((d, idx) => `
-    <div class="dish-card ${selectedId===d.id?'selected':''} ${d.desc==='unavailable'?'unavailable':''}" onclick="${d.desc==='unavailable'?'':` selectDish(${d.id})`}" style="opacity:0; animation: cardFadeIn 0.8s ease forwards ${0.06 * idx}s;">
+    <div class="dish-card ${selectedId===d.id?'selected':''} ${d.desc==='unavailable'?'unavailable':''}" onclick="${d.desc==='unavailable'?'':` selectDish(${d.id})`}" style="opacity:0; animation: cardFadeIn 0.8s ease forwards ${1.8 + 0.06 * idx}s;">
       <div class="dish-check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
       ${d.photo
         ? `<img class="dish-photo" src="${d.photo}" alt="${d.name}" style="${d.photo.includes('fritata') ? 'filter:brightness(0.88) contrast(1.05) saturate(1.05);' : ''}" onerror="this.outerHTML='<div class=dish-photo-placeholder>${d.emoji||'🍽️'}</div>'">`
@@ -438,11 +471,33 @@ function selectDish(id) {
   renderGrid();
 }
 
-function surpriseMe() {
-  const available = dishes.filter(d => d.desc !== 'unavailable');
-  const pick = available[Math.floor(Math.random() * available.length)];
-  selectedId = pick.id;
-  confirmPick();
+function spawnHearts() {
+  const container = document.getElementById('hearts-container');
+  container.innerHTML = '';
+  const emojis = ['❤️','🩷','💜','🤍','✨'];
+  for (let i = 0; i < 8; i++) {
+    setTimeout(() => {
+      const h = document.createElement('span');
+      h.className = 'heart';
+      h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      h.style.left = (10 + Math.random() * 80) + '%';
+      h.style.bottom = '0';
+      h.style.animationDelay = (Math.random() * 0.5) + 's';
+      container.appendChild(h);
+      setTimeout(() => h.remove(), 2500);
+    }, i * 150);
+  }
+}
+
+function typewriter(el, text, speed = 40) {
+  el.style.display = 'block';
+  el.textContent = '';
+  let i = 0;
+  const iv = setInterval(() => {
+    el.textContent += text[i];
+    i++;
+    if (i >= text.length) clearInterval(iv);
+  }, speed);
 }
 
 function confirmPick() {
@@ -457,10 +512,20 @@ function confirmPick() {
   const msg = encodeURIComponent(`🍽️ I'd love to eat: ${dish.name}`);
   const waBtn = document.getElementById('whatsapp-btn');
   waBtn.href = `https://wa.me/491724382147?text=${msg}`;
-  waBtn.onclick = () => { setTimeout(() => { document.getElementById('sent-message').style.display = 'block'; }, 300); };
-  document.getElementById('sent-message').style.display = 'none';
-  document.getElementById('confirm-bar').classList.remove('show');
-  showView('confirm');
+  const sentEl = document.getElementById('sent-message');
+  sentEl.style.display = 'none';
+  sentEl.textContent = '';
+  waBtn.onclick = () => {
+    setTimeout(() => { spawnHearts(); typewriter(sentEl, "alrighty I'll make it with love 😘", 45); }, 300);
+  };
+  setTimeout(spawnHearts, 400);
+}
+
+function surpriseMe() {
+  const available = dishes.filter(d => d.desc !== 'unavailable');
+  const pick = available[Math.floor(Math.random() * available.length)];
+  selectedId = pick.id;
+  confirmPick();
 }
 
 function goBack() { selectedId = null; renderGrid(); showView('menu'); }
@@ -564,8 +629,14 @@ function exportHTML() {
 function unlock() {
   const val = document.getElementById('lock-input').value.trim();
   if (val === 'hungry') {
-    document.getElementById('lock-screen').style.display = 'none';
-    document.getElementById('site-wrap').style.display = 'block';
+    const lockScreen = document.getElementById('lock-screen');
+    lockScreen.style.animation = 'fadeOut 1s ease forwards';
+    setTimeout(() => {
+      lockScreen.style.display = 'none';
+      const wrap = document.getElementById('site-wrap');
+      wrap.style.display = 'block';
+      setTimeout(() => wrap.classList.add('visible'), 50);
+    }, 1000);
     sessionStorage.setItem('icook4u_unlocked', '1');
   } else {
     const card = document.querySelector('.lock-card');
@@ -579,7 +650,9 @@ function unlock() {
 
 if (sessionStorage.getItem('icook4u_unlocked')) {
   document.getElementById('lock-screen').style.display = 'none';
-  document.getElementById('site-wrap').style.display = 'block';
+  const wrap = document.getElementById('site-wrap');
+  wrap.style.display = 'block';
+  setTimeout(() => wrap.classList.add('visible'), 50);
 }
 
 renderGrid();

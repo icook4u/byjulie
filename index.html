@@ -144,7 +144,7 @@
     display: flex; align-items: center; justify-content: center;
     z-index: 999; padding: 2rem;
     overflow: hidden;
-    background: white;
+    background: #FAF8F5;
     background-image: radial-gradient(circle, #E4D9EF 1px, transparent 1px);
     background-size: 28px 28px;
   }
@@ -193,7 +193,7 @@
   }
 
   .lock-card {
-    background: var(--card-bg); border: 1px solid var(--border);
+    background: #FAF8F5; border: 1px solid var(--border);
     border-radius: 20px; padding: 2.5rem 2rem;
     max-width: 340px; width: 100%; text-align: center;
     animation: lockCardIn 1s ease forwards;
@@ -250,7 +250,6 @@
 <div class="lock-screen" id="lock-screen">
   <div class="lock-card" style="position:relative; z-index:2;">
     <div class="lock-logo">i<span>cook</span>4U</div>
-    <div class="lock-divider"><div class="lock-divider-line"></div><div class="lock-divider-dot"></div><div class="lock-divider-line"></div></div>
     <div class="lock-label">plz enter the code to access the menu</div>
     <input class="lock-input" id="lock-input" type="password" placeholder="••••••"
       onkeydown="if(event.key==='Enter') unlock()">

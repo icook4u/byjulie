@@ -185,7 +185,7 @@
 <header>
   <div class="header-inner">
     <div style="position:relative; flex-shrink:0;">
-      <img src="photos/photoshero.jpg" alt="" class="profile-photo">
+      <img src="photos/photoshero.gif" alt="" class="profile-photo">
     </div>
     <div>
       <div class="logo">i<span>cook</span>4U<span style="font-family:var(--sans);font-size:1.2rem;font-weight:300;letter-spacing:0;color:var(--ink-faint);">(*ᴗ͈ˬᴗ͈)</span></div>
@@ -346,7 +346,7 @@ function renderGrid() {
         ? `<img class="dish-photo" src="${d.photo}" alt="${d.name}" style="${d.photo.includes('fritata') ? 'filter:brightness(0.88) contrast(1.05) saturate(1.05);' : ''}" onerror="this.outerHTML='<div class=dish-photo-placeholder>${d.emoji||'🍽️'}</div>'">`
         : `<div class="dish-photo-placeholder">${d.emoji||'🍽️'}</div>`}
       ${d.desc==='unavailable'
-        ? `<div class="dish-overlay" style="opacity:1;background:rgba(40,25,55,0.72);flex-direction:column;align-items:center;justify-content:center;gap:6px;">
+        ? `<div class="dish-overlay" style="background:rgba(40,25,55,0.72);flex-direction:column;align-items:center;justify-content:center;gap:6px;">
              <span style="font-size:1.8rem;">😢</span>
              <div class="dish-name" style="text-align:center;">${d.name}</div>
              <div style="font-family:var(--sans);font-size:0.7rem;color:rgba(255,255,255,0.75);letter-spacing:0.06em;text-transform:uppercase;">No longer available</div>

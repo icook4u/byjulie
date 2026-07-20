@@ -683,7 +683,7 @@ function unlock() {
       lockScreen.style.display = 'none';
       const wrap = document.getElementById('site-wrap');
       wrap.style.display = 'block';
-      setTimeout(() => wrap.classList.add('visible'), 50);
+      setTimeout(() => { wrap.classList.add('visible'); renderGrid(); }, 50);
     }, 1000);
     sessionStorage.setItem('icook4u_unlocked', '1');
   } else {
@@ -700,7 +700,7 @@ if (sessionStorage.getItem('icook4u_unlocked')) {
   document.getElementById('lock-screen').style.display = 'none';
   const wrap = document.getElementById('site-wrap');
   wrap.style.display = 'block';
-  setTimeout(() => wrap.classList.add('visible'), 50);
+  setTimeout(() => { wrap.classList.add('visible'); renderGrid(); }, 50);
 }
 
 renderGrid();

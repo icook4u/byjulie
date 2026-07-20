@@ -183,6 +183,7 @@
     animation: floatSparkle 2.5s ease-in-out infinite;
     opacity: 0;
   }
+  @keyframes fadeOut {
     from { opacity: 1; }
     to { opacity: 0; }
   }
@@ -493,6 +494,15 @@ function renderGrid() {
       });
     }
   });
+
+  const midpoint = Math.floor(dishes.length / 2);
+  const allCards = el.querySelectorAll('.dish-card');
+  if (allCards[midpoint]) {
+    const joke = document.createElement('div');
+    joke.style.cssText = 'grid-column:1/-1; text-align:center; padding:1.25rem 0;';
+    joke.innerHTML = '<p style="font-family:\'Cormorant Garamond\',Georgia,serif; font-size:1.3rem; font-weight:300; color:#ABABAB; letter-spacing:0.06em;">&#8212; kiss the chef &#128139; &#8212;</p>';
+    el.insertBefore(joke, allCards[midpoint]);
+  }
 }
 
 function renderAdmin() {

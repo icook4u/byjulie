@@ -38,13 +38,16 @@
   main { max-width: 960px; margin: 0 auto; padding: 2rem; }
   .view { display: none; } .view.active { display: block; }
 
-  .dishes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 0.5rem 0; align-items: start; }
+  .dishes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0.5rem 0; align-items: start; }
 
-  .dish-card { border-radius: 20px; overflow: hidden; cursor: pointer; position: relative; border: 2px solid transparent; box-shadow: 0 4px 20px rgba(100,70,140,0.08); transition: border-color 0.2s, transform 0.25s, box-shadow 0.25s; }
-  .dish-card:nth-child(3n+1) { height: 240px; }
-  .dish-card:nth-child(3n+2) { height: 200px; }
-  .dish-card:nth-child(3n+3) { height: 220px; }
-  .dish-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(100,70,140,0.16); }
+  .dish-card { border-radius: 16px; overflow: hidden; cursor: pointer; position: relative; border: 2px solid transparent; box-shadow: 0 4px 20px rgba(100,70,140,0.08); transition: border-color 0.2s, transform 0.25s, box-shadow 0.25s; }
+  .dish-card:nth-child(6n+1) { height: 260px; }
+  .dish-card:nth-child(6n+2) { height: 180px; }
+  .dish-card:nth-child(6n+3) { height: 220px; }
+  .dish-card:nth-child(6n+4) { height: 190px; }
+  .dish-card:nth-child(6n+5) { height: 240px; }
+  .dish-card:nth-child(6n+6) { height: 200px; }
+  .dish-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(100,70,140,0.16); }
   .dish-card.selected { border-color: var(--accent); }
   .dish-photo { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; background: var(--warm); transition: transform 0.5s ease; pointer-events: none; image-rendering: auto; -webkit-backface-visibility: hidden; backface-visibility: hidden; transform: translateZ(0); }
   .dish-card:hover .dish-photo { transform: scale(1.04); }
@@ -247,8 +250,12 @@
     header { padding: 1.25rem; } main { padding: 1.25rem; }
     .logo { font-size: 2.2rem; }
     .dishes-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .dish-overlay { opacity: 1 !important; background: linear-gradient(to top, rgba(40,25,55,0.85) 0%, transparent 50%) !important; }
-    .dish-card:nth-child(3n+1), .dish-card:nth-child(3n+2), .dish-card:nth-child(3n+3) { height: 180px; }
+    .dish-card:nth-child(6n+1) { height: 200px; }
+    .dish-card:nth-child(6n+2) { height: 150px; }
+    .dish-card:nth-child(6n+3) { height: 170px; }
+    .dish-card:nth-child(6n+4) { height: 160px; }
+    .dish-card:nth-child(6n+5) { height: 190px; }
+    .dish-card:nth-child(6n+6) { height: 155px; }
     .form-grid { grid-template-columns: 1fr; }
     .lock-screen { flex-direction: column; justify-content: center; align-items: center; padding: 2rem 1.5rem; gap: 1.5rem; }
     .lock-card { max-width: 100%; padding: 1.5rem 1.25rem; }
@@ -494,12 +501,13 @@ function renderGrid() {
     }
   });
 
-  const midpoint = Math.floor(dishes.length / 2);
+  const midpoint = Math.floor(dishes.length / 2) % 3 === 0 ? Math.floor(dishes.length / 2) : Math.floor(dishes.length / 2) - (Math.floor(dishes.length / 2) % 3);
   const allCards = el.querySelectorAll('.dish-card');
   if (allCards[midpoint]) {
     const joke = document.createElement('div');
     joke.style.cssText = 'grid-column:1/-1; text-align:center; padding:1.25rem 0;';
-    joke.innerHTML = '<p style="font-family:\'Cormorant Garamond\',Georgia,serif; font-size:1.3rem; font-weight:300; color:#ABABAB; letter-spacing:0.06em;">&#8212; kiss the chef &#128139; &#8212;</p>';
+    const waMsg = encodeURIComponent('😘');
+    joke.innerHTML = '<a href="https://wa.me/491724382147?text=' + waMsg + '" target="_blank" style="font-family:\'Cormorant Garamond\',Georgia,serif; font-size:1.3rem; font-weight:300; color:#ABABAB; letter-spacing:0.06em; text-decoration:none; display:inline-block; padding:6px 20px; border-radius:99px; border:1px solid #E8E3EF; transition:all 0.2s;">&#8212; kiss the chef &#128139; &#8212;</a>';
     el.insertBefore(joke, allCards[midpoint]);
   }
 }
